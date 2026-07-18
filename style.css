@@ -358,14 +358,25 @@ button:focus,
 }
 
 /* ================= ANIMASI GLOBAL SEMUA TOMBOL (V5.0) ================= */
+/* 1. Transisi dasar: Membuat pergerakan membesar & mengecil jadi sangat halus */
 button {
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                box-shadow 0.3s ease, 
+                filter 0.3s ease !important;
 }
 
+/* 2. Efek Hover: Saat kursor mendekat (Tombol terangkat, membesar 8%, dan bersinar) */
 button:hover {
-    transform: scale(1.08) translateY(-3px) !important;
-    box-shadow: 0 8px 15px rgba(255, 105, 180, 0.4) !important;
-    filter: brightness(1.1);
+    transform: scale(1.08) translateY(-4px) !important;
+    box-shadow: 0 10px 18px rgba(255, 105, 180, 0.35) !important;
+    filter: brightness(1.1) !important;
+}
+
+/* 3. Efek Active: Saat tombol sedang ditekan/diklik (Tombol mengecil ke dalam seperti ditekan beneran) */
+button:active {
+    transform: scale(0.95) translateY(0) !important;
+    box-shadow: 0 2px 5px rgba(255, 105, 180, 0.3) !important;
+    filter: brightness(0.9) !important;
 }
 
 /* ================= DESAIN TOMBOL KELUAR DI KANAN BAWAH ================= */
