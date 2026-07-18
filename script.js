@@ -36,6 +36,12 @@ const workspace = document.getElementById('workspace');
 const mainPaper = document.getElementById('mainPaper');
 const saveAndExitBtn = document.getElementById('saveAndExitBtn');
 
+// Elemen Modal Konfirmasi Hapus
+const deleteConfirmModal = document.getElementById('delete-confirm-modal');
+const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+let diaryToDeleteIndex = null; // Menyimpan memori nomor diari yang mau dihapus
+
 function updateHomeButtons() {
     if (storageData && storageData.length > 0) {
         continueDiaryBtn.removeAttribute('disabled');
@@ -102,14 +108,32 @@ function renderDiaryList() {
     });
 }
 
+// Memanggil Pop-up Hapus Buatan Sendiri
 window.deleteDiary = function(event, index) {
     event.stopPropagation();
-    if(confirm("Apakah kamu yakin ingin menghapus buku diari ini selamanya?")) {
-        storageData.splice(index, 1);
+    diaryToDeleteIndex = index; // Ingat diari mana yang dipilih
+    deleteConfirmModal.classList.remove('hidden'); // Munculkan kotaknya
+}
+
+// Logika Tombol "Batal"
+cancelDeleteBtn.addEventListener('click', () => {
+    deleteConfirmModal.classList.add('hidden');
+    diaryToDeleteIndex = null; // Lupakan pilihan
+});
+
+// Logika Tombol "Ya, Hapus"
+confirmDeleteBtn.addEventListener('click', () => {
+    if (diaryToDeleteIndex !== null) {
+        storageData.splice(diaryToDeleteIndex, 1);
         saveToStorage();
+        
+        deleteConfirmModal.classList.add('hidden');
+        diaryToDeleteIndex = null;
+        
         if(storageData.length === 0) cancelSelectBtn.click();
         else renderDiaryList();
     }
+});
 }
 
 function openEditor() {
