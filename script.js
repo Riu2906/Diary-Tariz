@@ -368,7 +368,7 @@ const splashText = document.getElementById('splash-text');
 const splashHint = document.getElementById('splash-hint');
 const mainApp = document.getElementById('main-app');
 
-const textToType = "Logo ini di buat oleh eca pada Jum'at, 18 Juli 2026. Logo ini meskipun terlihat sederhana tapi alasan logo ini di buat sangat indah, yaitu cinta yang tulus dan sederhana layak nya bunga dandelion yang mekar hanya karena cahaya matahari namun ia memberikan keindahan nan tulus untuk semua orang yang melihat nya.";
+const textToType = "Logo ini dibuat oleh Eca pada Sabtu, 18 Juli 2026. Meski tampil dengan desain yang sederhana, setiap bagiannya memiliki makna yang mendalam. Logo ini lahir dari ketulusan dan kasih sayang yang diwujudkan dalam bentuk yang sederhana, namun penuh arti. Seperti bunga dandelion yang tumbuh dan mekar karena cahaya matahari, logo ini melambangkan cinta yang tumbuh dengan kehangatan, keikhlasan, dan harapan. Kesederhanaannya justru menjadi sumber keindahan yang mampu menghadirkan rasa nyaman, kebahagiaan, dan makna bagi setiap orang yang melihatnya.";
 let typingIndex = 0;
 let isTyping = false;
 let typingTimer;
@@ -424,7 +424,7 @@ if (isElectron) {
     if (downloadExeLink) downloadExeLink.style.display = 'none';
     
     // Aktifkan Background 60 FPS
-    if (homeScreen) homeScreen.classList.add('bg-anim-app');
+    document.body.classList.add('bg-anim-app');
 
     if (exitAppBtn) {
         exitAppBtn.style.display = 'inline-block';
@@ -436,8 +436,8 @@ if (isElectron) {
     // ======== MODE WEB BROWSER ========
     if (exitAppBtn) exitAppBtn.style.display = 'none';
     
-    // Aktifkan Background 30 FPS (Optimasi)
-    if (homeScreen) homeScreen.classList.add('bg-anim-web');
+    // Aktifkan Background 30 FPS pada SELURUH HALAMAN
+    document.body.classList.add('bg-anim-web');
 }
 
 // Logika Batal Keluar (Menutup pop-up lucu)
