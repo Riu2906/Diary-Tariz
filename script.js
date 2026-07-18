@@ -40,6 +40,11 @@ const workspace = document.getElementById('workspace');
 const mainPaper = document.getElementById('mainPaper');
 const saveAndExitBtn = document.getElementById('saveAndExitBtn');
 
+// Elemen Modal Credit
+const creditBtn = document.getElementById('creditBtn');
+const creditModal = document.getElementById('credit-modal');
+const closeCreditBtn = document.getElementById('closeCreditBtn');
+
 function updateHomeButtons() {
     if (storageData && storageData.length > 0) {
         continueDiaryBtn.removeAttribute('disabled');
@@ -48,6 +53,15 @@ function updateHomeButtons() {
     }
 }
 updateHomeButtons();
+
+// --- LOGIKA POP-UP CREDIT ---
+creditBtn.addEventListener('click', () => {
+    creditModal.classList.remove('modal-hidden');
+});
+
+closeCreditBtn.addEventListener('click', () => {
+    creditModal.classList.add('modal-hidden');
+});
 
 // --- LOGIKA POP-UP BUAT DIARI BARU (MENGGUNAKAN ANIMASI HALUS) ---
 createNewDiaryBtn.addEventListener('click', () => {
@@ -62,7 +76,7 @@ promptCancel.addEventListener('click', () => {
 
 promptOk.addEventListener('click', () => {
     let title = promptInput.value.trim();
-    if (!title) title = "Harian Cantikku"; 
+    if (!title) title = "Diary Cantikku"; 
     
     customPrompt.classList.add('modal-hidden');
 

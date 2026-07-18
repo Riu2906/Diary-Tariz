@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diari Tariz ❤️</title>
+    <title>Diary Tariz ❤️</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- ================= LAYAR PEMBUKA (SPLASH SCREEN) ================= -->
     <div id="splash-screen">
-        <!-- Pemicu Musik (Harus diklik dulu agar browser mengizinkan audio) -->
         <div id="start-trigger">
             <h3 style="color: var(--pink-dark); font-size: 1.5rem;">Ada sebuah kenangan untukmu...</h3>
             <p class="blink">Ketuk layar untuk membuka ❤️</p>
         </div>
 
-        <!-- Konten Animasi (Muncul setelah klik pertama) -->
         <div id="splash-content" class="hidden-content">
             <img id="splash-logo" src="icon.ico" alt="Logo">
             <p id="splash-text"></p>
@@ -29,14 +27,15 @@
         
         <!-- 1. HALAMAN UTAMA -->
         <div id="home-screen">
-            <h1 class="title">Diari TARIZ❤️</h1>
-            <p class="subtitle">Diari ini di coding rizq untuk mengungkapkan perasaanya yang tak tersampaikan</p>
+            <h1 class="title">Diary Tariz❤️</h1>
+            <p class="subtitle">Diary ini di coding rizq untuk mengungkapkan perasaanya yang tak tersampaikan</p>
             
-            <button class="menu-btn btn-new" id="createNewDiaryBtn">🌸 Buat Diari Baru</button>
-            <button class="menu-btn btn-continue" id="continueDiaryBtn" disabled>🎀 Lanjutkan Diari</button>
+            <button class="menu-btn btn-new" id="createNewDiaryBtn">🌸 Buat Diary Baru</button>
+            <button class="menu-btn btn-continue" id="continueDiaryBtn" disabled>🎀 Lanjutkan Diary</button>
+            <button class="menu-btn btn-credit" id="creditBtn" style="margin-top: 10px;">✨ Credit</button>
         </div>
 
-        <!-- MODAL POP UP JUDUL (Dengan efek halus) -->
+        <!-- MODAL POP UP JUDUL -->
         <div id="custom-prompt" class="modal-overlay modal-hidden">
             <div class="prompt-box">
                 <h3>Tulis dulu judul nyaa! ❤️</h3>
@@ -48,10 +47,10 @@
             </div>
         </div>
 
-        <!-- MODAL KONFIRMASI HAPUS (Dengan efek halus) -->
+        <!-- MODAL KONFIRMASI HAPUS -->
         <div id="delete-confirm-modal" class="modal-overlay modal-hidden">
             <div class="prompt-box delete-box">
-                <h3 style="color: #ff4766; margin-bottom: 10px;">Yakin Hapus Diari Ini? 🥺</h3>
+                <h3 style="color: #ff4766; margin-bottom: 10px;">Yakin Hapus Diary Ini? 🥺</h3>
                 <p style="color: #887068; margin-bottom: 20px; font-size: 0.95rem; font-weight: bold;">Kenangan di dalamnya akan terhapus selamanya...</p>
                 <div class="prompt-btns">
                     <button id="cancelDeleteBtn">Batal</button>
@@ -60,17 +59,37 @@
             </div>
         </div>
 
-        <!-- 2. PILIH DIARI -->
+        <!-- MODAL CREDIT (FITUR BARU) -->
+        <div id="credit-modal" class="modal-overlay modal-hidden">
+            <div class="prompt-box" style="text-align: center;">
+                <h3 style="color: #ff4766; margin-bottom: 15px; font-size: 1.5rem;">Credit ✨</h3>
+                
+                <p style="color: #887068; font-weight: bold; margin: 5px 0 0 0; font-size: 0.9rem;">Developer</p>
+                <p style="color: #5d4037; margin-bottom: 12px; font-size: 1.1rem;">@rizq.2906</p>
+                
+                <p style="color: #887068; font-weight: bold; margin: 5px 0 0 0; font-size: 0.9rem;">Support</p>
+                <p style="color: #5d4037; margin-bottom: 12px; font-size: 1.1rem;">@tesa_lonika04</p>
+                
+                <p style="color: #887068; font-weight: bold; margin: 5px 0 0 0; font-size: 0.9rem;">Tester</p>
+                <p style="color: #5d4037; margin-bottom: 20px; font-size: 1.1rem;">@lilykanaeru</p>
+                
+                <div class="prompt-btns">
+                    <button id="closeCreditBtn" style="flex-grow: 1; background: #ff4766; color: white;">Tutup</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. PILIH DIARY -->
         <div id="select-screen" class="hidden">
-            <h2 style="margin-bottom: 15px; color: var(--pink-dark);">Pilih Diari Kamu:</h2>
+            <h2 style="margin-bottom: 15px; color: var(--pink-dark);">Pilih Diary Kamu:</h2>
             <ul class="diary-list" id="diaryListContainer"></ul>
             <button class="btn-back-home" id="cancelSelectBtn">kembali ke Menu Utama</button>
         </div>
 
-        <!-- 3. RUANG EDIT DIARI -->
+        <!-- 3. RUANG EDIT DIARY -->
         <div id="editor-screen" class="hidden">
             <div id="top-toolbar">
-                <div class="diary-title-disp" id="diaryTitleDisplay">Judul Diari</div>
+                <div class="diary-title-disp" id="diaryTitleDisplay">Judul Diary</div>
                 <input type="file" id="photoInput" accept="image/*" style="display: none;">
                 <button class="btn-tool" id="insertPhotoBtn">📷 Sisipkan Foto</button>
                 <span style="font-size: 0.85rem; color: #777; font-weight:bold;">*Klik 2x foto untuk pindah posisi kiri/kanan</span>
