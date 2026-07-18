@@ -134,7 +134,6 @@ confirmDeleteBtn.addEventListener('click', () => {
         else renderDiaryList();
     }
 });
-}
 
 function openEditor() {
     homeScreen.classList.add('hidden');
