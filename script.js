@@ -1,6 +1,51 @@
 // MEMATIKAN KLIK KANAN BAWAAN
 document.addEventListener('contextmenu', event => event.preventDefault());
 
+// ================= LOGIKA LAYAR PEMBUKA (SPLASH SCREEN) =================
+const splashScreen = document.getElementById('splash-screen');
+const splashText = document.getElementById('splash-text');
+const splashHint = document.getElementById('splash-hint');
+const mainApp = document.getElementById('main-app');
+
+const textToType = "Logo ini di buat oleh eca pada Jum'at, 18 Juli 2026. Logo ini meskipun terlihat sederhana tapi alasan logo ini di buat sangat indah, yaitu cinta yang tulus dan sederhana layak nya bunga dandelion yang mekar hanya karena cahaya matahari namun ia memberikan keindahan nan tulus untuk semua orang yang melihat nya.";
+let typingIndex = 0;
+let isTyping = false;
+let typingTimer;
+
+function typeWriter() {
+    if (typingIndex < textToType.length) {
+        isTyping = true;
+        splashText.innerHTML += textToType.charAt(typingIndex);
+        typingIndex++;
+        typingTimer = setTimeout(typeWriter, 40); // Kecepatan mengetik
+    } else {
+        isTyping = false;
+        splashHint.classList.add('show-hint'); // Munculkan "Klik untuk melanjutkan"
+    }
+}
+
+// Mulai mengetik otomatis setelah animasi logo selesai (sekitar 2 detik)
+setTimeout(() => {
+    typeWriter();
+}, 2000);
+
+// Logika Klik Layar Pembuka
+splashScreen.addEventListener('click', () => {
+    if (isTyping) {
+        // Jika sedang mengetik tapi layar diklik, tulisan langsung diselesaikan (Skip)
+        clearTimeout(typingTimer);
+        splashText.innerHTML = textToType;
+        typingIndex = textToType.length;
+        isTyping = false;
+        splashHint.classList.add('show-hint');
+    } else {
+        // Jika tulisan sudah selesai, klik layar akan menutup Splash Screen
+        splashScreen.classList.add('splash-hidden');
+        mainApp.classList.remove('app-blurred'); // Hilangkan blur di menu utama
+    }
+});
+// =========================================================================
+
 let storageData = [];
 try {
     const rawData = localStorage.getItem('cuteDiariesDataV7');

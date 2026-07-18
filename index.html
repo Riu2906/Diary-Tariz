@@ -8,62 +8,75 @@
 </head>
 <body>
 
-    <!-- 1. HALAMAN UTAMA -->
-    <div id="home-screen">
-        <h1 class="title">Diari TARIZ❤️</h1>
-        <p class="subtitle">Diari ini di coding rizq untuk mengungkapkan perasaanya yang tak tersampaikan</p>
+    <!-- ================= LAYAR PEMBUKA (SPLASH SCREEN) ================= -->
+    <div id="splash-screen">
+        <!-- Pastikan gambar icon.ico ada di folder yang sama di GitHub -->
+        <img id="splash-logo" src="icon.ico" alt="Logo">
+        <p id="splash-text"></p>
+        <span id="splash-hint">Klik layar untuk melanjutkan...</span>
+    </div>
+
+    <!-- ================= SEMUA APLIKASI DIBUNGKUS DI SINI AGAR BISA DI-BLUR ================= -->
+    <div id="main-app" class="app-blurred">
         
-        <button class="menu-btn btn-new" id="createNewDiaryBtn">🌸 Buat Diari Baru</button>
-        <button class="menu-btn btn-continue" id="continueDiaryBtn" disabled>🎀 Lanjutkan Diari</button>
-    </div>
+        <!-- 1. HALAMAN UTAMA -->
+        <div id="home-screen">
+            <h1 class="title">Diari TARIZ❤️</h1>
+            <p class="subtitle">Diari ini di coding rizq untuk mengungkapkan perasaanya yang tak tersampaikan</p>
+            
+            <button class="menu-btn btn-new" id="createNewDiaryBtn">🌸 Buat Diari Baru</button>
+            <button class="menu-btn btn-continue" id="continueDiaryBtn" disabled>🎀 Lanjutkan Diari</button>
+        </div>
 
-    <!-- MODAL POP UP JUDUL (Jangan sampai terhapus) -->
-    <div id="custom-prompt" class="hidden">
-        <div class="prompt-box">
-            <h3>Tulis dulu judul nyaa! ❤️</h3>
-            <input type="text" id="promptInput" placeholder="Ketik di sini...">
-            <div class="prompt-btns">
-                <button id="promptCancel">Batal</button>
-                <button id="promptOk">Simpan</button>
+        <!-- MODAL POP UP JUDUL -->
+        <div id="custom-prompt" class="hidden">
+            <div class="prompt-box">
+                <h3>Tulis dulu judul nyaa! ❤️</h3>
+                <input type="text" id="promptInput" placeholder="Ketik di sini...">
+                <div class="prompt-btns">
+                    <button id="promptCancel">Batal</button>
+                    <button id="promptOk">Simpan</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- MODAL KONFIRMASI HAPUS (Fitur Baru) -->
-    <div id="delete-confirm-modal" class="hidden">
-        <div class="prompt-box delete-box">
-            <h3 style="color: #ff4766; margin-bottom: 10px;">Yakin Hapus Diari Ini? 🥺</h3>
-            <p style="color: #887068; margin-bottom: 20px; font-size: 0.95rem; font-weight: bold;">Kenangan di dalamnya akan terhapus selamanya...</p>
-            <div class="prompt-btns">
-                <button id="cancelDeleteBtn">Batal</button>
-                <button id="confirmDeleteBtn">Ya, Hapus</button>
+        <!-- MODAL KONFIRMASI HAPUS -->
+        <div id="delete-confirm-modal" class="hidden">
+            <div class="prompt-box delete-box">
+                <h3 style="color: #ff4766; margin-bottom: 10px;">Yakin Hapus Diari Ini? 🥺</h3>
+                <p style="color: #887068; margin-bottom: 20px; font-size: 0.95rem; font-weight: bold;">Kenangan di dalamnya akan terhapus selamanya...</p>
+                <div class="prompt-btns">
+                    <button id="cancelDeleteBtn">Batal</button>
+                    <button id="confirmDeleteBtn">Ya, Hapus</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- 2. PILIH DIARI -->
-    <div id="select-screen" class="hidden">
-        <h2 style="margin-bottom: 15px; color: var(--pink-dark);">Pilih Diari Kamu:</h2>
-        <ul class="diary-list" id="diaryListContainer"></ul>
-        <button class="btn-back-home" id="cancelSelectBtn">kembali ke Menu Utama</button>
-    </div>
-
-    <!-- 3. RUANG EDIT DIARI -->
-    <div id="editor-screen" class="hidden">
-        <div id="top-toolbar">
-            <div class="diary-title-disp" id="diaryTitleDisplay">Judul Diari</div>
-            <input type="file" id="photoInput" accept="image/*" style="display: none;">
-            <button class="btn-tool" id="insertPhotoBtn">📷 Sisipkan Foto</button>
-            <span style="font-size: 0.85rem; color: #777; font-weight:bold;">*Klik 2x foto untuk pindah posisi kiri/kanan</span>
+        <!-- 2. PILIH DIARI -->
+        <div id="select-screen" class="hidden">
+            <h2 style="margin-bottom: 15px; color: var(--pink-dark);">Pilih Diari Kamu:</h2>
+            <ul class="diary-list" id="diaryListContainer"></ul>
+            <button class="btn-back-home" id="cancelSelectBtn">kembali ke Menu Utama</button>
         </div>
 
-        <div id="workspace">
-            <div class="diary-paper" id="mainPaper" contenteditable="true" spellcheck="false"></div>
+        <!-- 3. RUANG EDIT DIARI -->
+        <div id="editor-screen" class="hidden">
+            <div id="top-toolbar">
+                <div class="diary-title-disp" id="diaryTitleDisplay">Judul Diari</div>
+                <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                <button class="btn-tool" id="insertPhotoBtn">📷 Sisipkan Foto</button>
+                <span style="font-size: 0.85rem; color: #777; font-weight:bold;">*Klik 2x foto untuk pindah posisi kiri/kanan</span>
+            </div>
+
+            <div id="workspace">
+                <div class="diary-paper" id="mainPaper" contenteditable="true" spellcheck="false"></div>
+            </div>
+
+            <div id="bottom-bar">
+                <button class="btn-bottom btn-home-back" id="saveAndExitBtn">🏠 Simpan & Keluar</button>
+            </div>
         </div>
 
-        <div id="bottom-bar">
-            <button class="btn-bottom btn-home-back" id="saveAndExitBtn">🏠 Simpan & Keluar</button>
-        </div>
     </div>
 
     <script src="script.js"></script>
