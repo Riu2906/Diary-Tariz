@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diari Tariz ❤️</title>
-    <!-- Memanggil File CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,11 +17,23 @@
         <button class="menu-btn btn-continue" id="continueDiaryBtn" disabled>🎀 Lanjutkan Diari</button>
     </div>
 
-    <!-- MODAL KONFIRMASI HAPUS -->
+    <!-- MODAL POP UP JUDUL (Jangan sampai terhapus) -->
+    <div id="custom-prompt" class="hidden">
+        <div class="prompt-box">
+            <h3>Tulis dulu judul nyaa! ❤️</h3>
+            <input type="text" id="promptInput" placeholder="Ketik di sini...">
+            <div class="prompt-btns">
+                <button id="promptCancel">Batal</button>
+                <button id="promptOk">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL KONFIRMASI HAPUS (Fitur Baru) -->
     <div id="delete-confirm-modal" class="hidden">
         <div class="prompt-box delete-box">
-            <h3>Yakin Hapus Diari Ini? 🥺</h3>
-            <p>Kenangan di dalamnya akan terhapus selamanya...</p>
+            <h3 style="color: #ff4766; margin-bottom: 10px;">Yakin Hapus Diari Ini? 🥺</h3>
+            <p style="color: #887068; margin-bottom: 20px; font-size: 0.95rem; font-weight: bold;">Kenangan di dalamnya akan terhapus selamanya...</p>
             <div class="prompt-btns">
                 <button id="cancelDeleteBtn">Batal</button>
                 <button id="confirmDeleteBtn">Ya, Hapus</button>
@@ -55,7 +66,6 @@
         </div>
     </div>
 
-    <!-- Memanggil File JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>

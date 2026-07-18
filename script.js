@@ -1,4 +1,4 @@
-// MEMATIKAN KLIK KANAN BAWAAN (Agar terasa seperti aplikasi native)
+// MEMATIKAN KLIK KANAN BAWAAN
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 let storageData = [];
@@ -14,6 +14,7 @@ let dragTarget = null;
 let ghostPreview = null; 
 let savedCursorRange = null; 
 
+// Menangkap semua elemen dari HTML
 const homeScreen = document.getElementById('home-screen');
 const selectScreen = document.getElementById('select-screen');
 const editorScreen = document.getElementById('editor-screen');
@@ -28,6 +29,11 @@ const promptInput = document.getElementById('promptInput');
 const promptOk = document.getElementById('promptOk');
 const promptCancel = document.getElementById('promptCancel');
 
+const deleteConfirmModal = document.getElementById('delete-confirm-modal');
+const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+let diaryToDeleteIndex = null; 
+
 const diaryTitleDisplay = document.getElementById('diaryTitleDisplay');
 const insertPhotoBtn = document.getElementById('insertPhotoBtn');
 const photoInput = document.getElementById('photoInput');
@@ -35,12 +41,6 @@ const photoInput = document.getElementById('photoInput');
 const workspace = document.getElementById('workspace');
 const mainPaper = document.getElementById('mainPaper');
 const saveAndExitBtn = document.getElementById('saveAndExitBtn');
-
-// Elemen Modal Konfirmasi Hapus
-const deleteConfirmModal = document.getElementById('delete-confirm-modal');
-const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
-const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-let diaryToDeleteIndex = null; // Menyimpan memori nomor diari yang mau dihapus
 
 function updateHomeButtons() {
     if (storageData && storageData.length > 0) {
@@ -51,6 +51,7 @@ function updateHomeButtons() {
 }
 updateHomeButtons();
 
+// Logika Pop-up Judul
 createNewDiaryBtn.addEventListener('click', () => {
     customPrompt.classList.remove('hidden');
     promptInput.value = '';
@@ -78,6 +79,7 @@ promptOk.addEventListener('click', () => {
     openEditor();
 });
 
+// Logika Lanjutkan Diari
 continueDiaryBtn.addEventListener('click', () => {
     homeScreen.classList.add('hidden');
     selectScreen.classList.remove('hidden');
@@ -108,20 +110,18 @@ function renderDiaryList() {
     });
 }
 
-// Memanggil Pop-up Hapus Buatan Sendiri
+// Logika Pop-up Hapus
 window.deleteDiary = function(event, index) {
     event.stopPropagation();
-    diaryToDeleteIndex = index; // Ingat diari mana yang dipilih
-    deleteConfirmModal.classList.remove('hidden'); // Munculkan kotaknya
+    diaryToDeleteIndex = index; 
+    deleteConfirmModal.classList.remove('hidden'); 
 }
 
-// Logika Tombol "Batal"
 cancelDeleteBtn.addEventListener('click', () => {
     deleteConfirmModal.classList.add('hidden');
-    diaryToDeleteIndex = null; // Lupakan pilihan
+    diaryToDeleteIndex = null; 
 });
 
-// Logika Tombol "Ya, Hapus"
 confirmDeleteBtn.addEventListener('click', () => {
     if (diaryToDeleteIndex !== null) {
         storageData.splice(diaryToDeleteIndex, 1);
@@ -135,6 +135,7 @@ confirmDeleteBtn.addEventListener('click', () => {
     }
 });
 
+// Logika Editor & Kertas
 function openEditor() {
     homeScreen.classList.add('hidden');
     editorScreen.classList.remove('hidden');
@@ -179,7 +180,6 @@ document.addEventListener('selectionchange', () => {
 
 function saveCurrentContent() {
     if (activeDiaryIndex === null) return;
-    
     const strayGhosts = mainPaper.querySelectorAll('.ghost-preview');
     strayGhosts.forEach(g => g.remove());
 
@@ -191,6 +191,7 @@ function saveToStorage() {
     localStorage.setItem('cuteDiariesDataV7', JSON.stringify(storageData));
 }
 
+// Logika Foto
 insertPhotoBtn.addEventListener('click', () => photoInput.click());
 
 photoInput.addEventListener('change', function(e) {
@@ -238,7 +239,6 @@ photoInput.addEventListener('change', function(e) {
 function attachPhotoEventsToPaper() {
     const photos = mainPaper.querySelectorAll('.diary-photo:not(.ghost-preview)');
     photos.forEach(photo => {
-        // CEGAH BUG DUPLIKAT: Pastikan foto hanya disuntik fungsi geser 1 kali
         if (photo.dataset.isDraggable) return;
         photo.dataset.isDraggable = "true";
 
