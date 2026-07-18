@@ -275,50 +275,56 @@ mainPaper.addEventListener('drop', (e) => {
 document.addEventListener('dragover', (e) => e.preventDefault());
 document.addEventListener('drop', (e) => e.preventDefault());
 
-// ================= LOGIKA MUSIK & SPLASH SCREEN (ANTI-LAG) =================
+// ================= LOGIKA MUSIK (WEB AUDIO API - ANTI LAG) =================
 const bgMusic = document.getElementById('bg-music');
-bgMusic.volume = 0; 
-let isFadingOut = false;
-let fadeInterval = null; // Memori agar proses fade tidak bertabrakan
+let audioCtx, gainNode, source;
 
+// Inisialisasi AudioContext (Harus dilakukan setelah klik user)
+function initAudio() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        source = audioCtx.createMediaElementSource(bgMusic);
+        gainNode = audioCtx.createGain();
+        source.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        gainNode.gain.value = 0; // Mulai dari sunyi
+    }
+}
+
+// Fade In menggunakan fungsi bawaan browser (Tanpa setInterval)
 function fadeInMusic() {
-    if(fadeInterval) clearInterval(fadeInterval);
-    bgMusic.play().catch(e => console.log("Menunggu interaksi user"));
-    let vol = bgMusic.volume;
-    fadeInterval = setInterval(() => {
-        if (vol < 0.95) {
-            vol += 0.05;
-            bgMusic.volume = vol;
-        } else {
-            bgMusic.volume = 1;
-            clearInterval(fadeInterval);
-        }
-    }, 200);
+    initAudio();
+    bgMusic.play().catch(e => console.log("Audio waiting"));
+    // RampToValueAtTime membuat perubahan volume sangat halus di level hardware
+    gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 2);
 }
 
+// Fade Out menggunakan fungsi bawaan browser
 function fadeOutMusic() {
-    isFadingOut = true;
-    if(fadeInterval) clearInterval(fadeInterval);
-    let vol = bgMusic.volume;
-    fadeInterval = setInterval(() => {
-        if (vol > 0.05) {
-            vol -= 0.05;
-            bgMusic.volume = vol;
-        } else {
-            bgMusic.volume = 0;
-            clearInterval(fadeInterval);
-            bgMusic.currentTime = 0;
-            isFadingOut = false;
-            fadeInMusic(); 
-        }
-    }, 200);
+    if (!gainNode) return;
+    // Turunkan volume ke 0 dalam waktu 2 detik
+    gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 2);
+    
+    setTimeout(() => {
+        bgMusic.currentTime = 0;
+        bgMusic.play();
+        gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 2);
+    }, 2000);
 }
 
+// Deteksi lagu habis
 bgMusic.addEventListener('timeupdate', () => {
-    if (!isNaN(bgMusic.duration) && (bgMusic.duration - bgMusic.currentTime <= 4) && !isFadingOut) {
-        fadeOutMusic();
+    if (!isNaN(bgMusic.duration) && (bgMusic.duration - bgMusic.currentTime <= 2.1)) {
+        // Panggil fadeOut hanya sekali
+        if (bgMusic.dataset.fading !== "true") {
+            bgMusic.dataset.fading = "true";
+            fadeOutMusic();
+        }
+    } else {
+        bgMusic.dataset.fading = "false";
     }
 });
+// ===========================================================================
 
 // LOGIKA LAYAR PEMBUKA (3 FASE)
 const splashScreen = document.getElementById('splash-screen');
