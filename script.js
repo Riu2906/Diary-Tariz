@@ -443,7 +443,6 @@ function animateLavaCursor() {
 
 // 3. Nyalakan mesin fisika
 animateLavaCursor();
-});
 
 // ================= DETEKSI PLATFORM (WEB VS WINDOWS EXE) =================
 const downloadExeLink = document.getElementById('downloadExeLink');
