@@ -41,7 +41,12 @@ splashScreen.addEventListener('click', () => {
     } else {
         // Jika tulisan sudah selesai, klik layar akan menutup Splash Screen
         splashScreen.classList.add('splash-hidden');
-        mainApp.classList.remove('app-blurred'); // Hilangkan blur di menu utama
+        mainApp.classList.remove('app-blurred'); 
+        
+        // KODE SAKTI: Mulai putar musik dengan efek Fade In!
+        if (bgMusic.paused) {
+            fadeInMusic();
+        }
     }
 });
 // =========================================================================
@@ -349,3 +354,51 @@ mainPaper.addEventListener('drop', (e) => {
 
 document.addEventListener('dragover', (e) => e.preventDefault());
 document.addEventListener('drop', (e) => e.preventDefault());
+
+// ================= LOGIKA MUSIK BACKGROUND (FADE IN & OUT) =================
+const bgMusic = document.getElementById('bg-music');
+bgMusic.volume = 0; // Mulai dari volume 0 (Bisu)
+let isFadingOut = false;
+
+// Fungsi untuk menaikkan volume perlahan (Fade In)
+function fadeInMusic() {
+    bgMusic.play();
+    let vol = 0;
+    const fadeInterval = setInterval(() => {
+        if (vol < 0.95) {
+            vol += 0.05;
+            bgMusic.volume = vol;
+        } else {
+            bgMusic.volume = 1;
+            clearInterval(fadeInterval);
+        }
+    }, 150); // Kecepatan transisi fade in
+}
+
+// Fungsi untuk menurunkan volume perlahan (Fade Out) dan mengulang lagu
+function fadeOutMusic() {
+    isFadingOut = true;
+    let vol = bgMusic.volume;
+    const fadeInterval = setInterval(() => {
+        if (vol > 0.05) {
+            vol -= 0.05;
+            bgMusic.volume = vol;
+        } else {
+            bgMusic.volume = 0;
+            clearInterval(fadeInterval);
+            
+            // Ulangi lagu dari awal setelah fade out selesai
+            bgMusic.currentTime = 0;
+            isFadingOut = false;
+            fadeInMusic(); 
+        }
+    }, 150); // Kecepatan transisi fade out
+}
+
+// Sensor untuk mendeteksi kapan lagu akan segera habis
+bgMusic.addEventListener('timeupdate', () => {
+    // Jika sisa lagu kurang dari 4 detik, mulai efek fade out
+    if (!isNaN(bgMusic.duration) && (bgMusic.duration - bgMusic.currentTime <= 4) && !isFadingOut) {
+        fadeOutMusic();
+    }
+});
