@@ -405,3 +405,15 @@ splashScreen.addEventListener('click', () => {
         mainApp.classList.remove('app-blurred'); 
     }
 });
+
+// ================= DETEKSI PLATFORM (WEB VS WINDOWS EXE) =================
+const downloadExeLink = document.getElementById('downloadExeLink');
+
+// Membaca "KTP Digital" dari sistem yang membuka aplikasi ini
+const userAgent = navigator.userAgent.toLowerCase();
+const isElectron = userAgent.indexOf('electron') > -1;
+
+// Jika dibuka melalui Aplikasi .EXE (Electron), sembunyikan tombol download!
+if (isElectron && downloadExeLink) {
+    downloadExeLink.style.display = 'none';
+}

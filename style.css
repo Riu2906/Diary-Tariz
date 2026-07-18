@@ -110,6 +110,22 @@ h1.title {
     border-radius: 10px;
 }
 
+/* ================= DESAIN LINK DOWNLOAD EXE ================= */
+.download-link {
+    display: block;
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: #887068;
+    text-decoration: underline;
+    font-family: sans-serif; /* Menggunakan font standar agar mudah dibaca */
+    transition: color 0.3s ease;
+    cursor: url('kursor-klik.png') 16 16, pointer !important; /* Kursor kustom saat disentuh */
+}
+
+.download-link:hover {
+    color: #ff4766;
+}
+
 /* ================= MODAL BIKIN JUDUL ================= */
 #custom-prompt {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
