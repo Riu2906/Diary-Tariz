@@ -430,3 +430,31 @@ button:active {
     border-radius: 15px;
 }
 #confirmExitBtn:hover { background: linear-gradient(135deg, #fecfef 0%, #ff9a9e 100%); }
+
+/* ================= BACKGROUND HOMEPAGE GELOMBANG GRADIENT (V5.0) ================= */
+/* 
+   Teknik Fluid Gradient: Latar belakang dibuat 4x lipat lebih besar (400%),
+   lalu kita geser koordinatnya secara berulang.
+*/
+
+/* Mode App: 60 FPS (Menggunakan transisi ease-in-out bawaan Graphic Card yang sangat mulus) */
+.bg-anim-app {
+    background: linear-gradient(-45deg, #ff9a9e, #fecfef, #fbc2eb, #ffb6c1, #ffdde1);
+    background-size: 400% 400%;
+    animation: fluidGradient 15s ease-in-out infinite;
+}
+
+/* Mode Web: 30 FPS (Durasi 15 detik dikali 30 frame = 450 steps) 
+   Ini memaksa browser merender seperti stop-motion sangat halus untuk menghemat RAM */
+.bg-anim-web {
+    background: linear-gradient(-45deg, #ff9a9e, #fecfef, #fbc2eb, #ffb6c1, #ffdde1);
+    background-size: 400% 400%;
+    animation: fluidGradient 15s steps(450, end) infinite;
+}
+
+/* Kunci Pergerakan: Mulai dari Kiri, ke Kanan, lalu balik ke Kiri lagi (Seamless Loop) */
+@keyframes fluidGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}

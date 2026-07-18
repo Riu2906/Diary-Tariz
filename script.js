@@ -420,19 +420,24 @@ const userAgent = navigator.userAgent.toLowerCase();
 const isElectron = userAgent.indexOf('electron') > -1;
 
 if (isElectron) {
-    // JIKA DI APLIKASI EXE: Sembunyikan tulisan download, Munculkan tombol Keluar
+    // ======== MODE APLIKASI WINDOWS (.EXE) ========
     if (downloadExeLink) downloadExeLink.style.display = 'none';
+    
+    // Aktifkan Background 60 FPS
+    if (homeScreen) homeScreen.classList.add('bg-anim-app');
+
     if (exitAppBtn) {
         exitAppBtn.style.display = 'inline-block';
-        
-        // Logika saat tombol Exit di kanan bawah ditekan
         exitAppBtn.addEventListener('click', () => {
             exitConfirmModal.classList.remove('modal-hidden');
         });
     }
 } else {
-    // JIKA DI WEB BROWSER BIASA: Tombol keluar tetap tersembunyi
+    // ======== MODE WEB BROWSER ========
     if (exitAppBtn) exitAppBtn.style.display = 'none';
+    
+    // Aktifkan Background 30 FPS (Optimasi)
+    if (homeScreen) homeScreen.classList.add('bg-anim-web');
 }
 
 // Logika Batal Keluar (Menutup pop-up lucu)
