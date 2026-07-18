@@ -1,55 +1,4 @@
-// MEMATIKAN KLIK KANAN BAWAAN
 document.addEventListener('contextmenu', event => event.preventDefault());
-
-// ================= LOGIKA LAYAR PEMBUKA (SPLASH SCREEN) =================
-const splashScreen = document.getElementById('splash-screen');
-const splashText = document.getElementById('splash-text');
-const splashHint = document.getElementById('splash-hint');
-const mainApp = document.getElementById('main-app');
-
-const textToType = "Logo ini di buat oleh eca pada Jum'at, 18 Juli 2026. Logo ini meskipun terlihat sederhana tapi alasan logo ini di buat sangat indah, yaitu cinta yang tulus dan sederhana layak nya bunga dandelion yang mekar hanya karena cahaya matahari namun ia memberikan keindahan nan tulus untuk semua orang yang melihat nya.";
-let typingIndex = 0;
-let isTyping = false;
-let typingTimer;
-
-function typeWriter() {
-    if (typingIndex < textToType.length) {
-        isTyping = true;
-        splashText.innerHTML += textToType.charAt(typingIndex);
-        typingIndex++;
-        typingTimer = setTimeout(typeWriter, 40); // Kecepatan mengetik
-    } else {
-        isTyping = false;
-        splashHint.classList.add('show-hint'); // Munculkan "Klik untuk melanjutkan"
-    }
-}
-
-// Mulai mengetik otomatis setelah animasi logo selesai (sekitar 2 detik)
-setTimeout(() => {
-    typeWriter();
-}, 2000);
-
-// Logika Klik Layar Pembuka
-splashScreen.addEventListener('click', () => {
-    if (isTyping) {
-        // Jika sedang mengetik tapi layar diklik, tulisan langsung diselesaikan (Skip)
-        clearTimeout(typingTimer);
-        splashText.innerHTML = textToType;
-        typingIndex = textToType.length;
-        isTyping = false;
-        splashHint.classList.add('show-hint');
-    } else {
-        // Jika tulisan sudah selesai, klik layar akan menutup Splash Screen
-        splashScreen.classList.add('splash-hidden');
-        mainApp.classList.remove('app-blurred'); 
-        
-        // KODE SAKTI: Mulai putar musik dengan efek Fade In!
-        if (bgMusic.paused) {
-            fadeInMusic();
-        }
-    }
-});
-// =========================================================================
 
 let storageData = [];
 try {
@@ -64,7 +13,6 @@ let dragTarget = null;
 let ghostPreview = null; 
 let savedCursorRange = null; 
 
-// Menangkap semua elemen dari HTML
 const homeScreen = document.getElementById('home-screen');
 const selectScreen = document.getElementById('select-screen');
 const editorScreen = document.getElementById('editor-screen');
@@ -101,27 +49,24 @@ function updateHomeButtons() {
 }
 updateHomeButtons();
 
-// Logika Pop-up Judul
+// --- LOGIKA POP-UP BUAT DIARI BARU (MENGGUNAKAN ANIMASI HALUS) ---
 createNewDiaryBtn.addEventListener('click', () => {
-    customPrompt.classList.remove('hidden');
+    customPrompt.classList.remove('modal-hidden');
     promptInput.value = '';
     promptInput.focus();
 });
 
 promptCancel.addEventListener('click', () => {
-    customPrompt.classList.add('hidden');
+    customPrompt.classList.add('modal-hidden');
 });
 
 promptOk.addEventListener('click', () => {
     let title = promptInput.value.trim();
     if (!title) title = "Harian Cantikku"; 
     
-    customPrompt.classList.add('hidden');
+    customPrompt.classList.add('modal-hidden');
 
-    let newDiary = {
-        title: title,
-        content: '<div><br></div>' 
-    };
+    let newDiary = { title: title, content: '<div><br></div>' };
     storageData.push(newDiary);
     activeDiaryIndex = storageData.length - 1;
     
@@ -129,7 +74,7 @@ promptOk.addEventListener('click', () => {
     openEditor();
 });
 
-// Logika Lanjutkan Diari
+// --- LOGIKA LANJUTKAN & HAPUS DIARI ---
 continueDiaryBtn.addEventListener('click', () => {
     homeScreen.classList.add('hidden');
     selectScreen.classList.remove('hidden');
@@ -160,15 +105,14 @@ function renderDiaryList() {
     });
 }
 
-// Logika Pop-up Hapus
 window.deleteDiary = function(event, index) {
     event.stopPropagation();
     diaryToDeleteIndex = index; 
-    deleteConfirmModal.classList.remove('hidden'); 
+    deleteConfirmModal.classList.remove('modal-hidden'); 
 }
 
 cancelDeleteBtn.addEventListener('click', () => {
-    deleteConfirmModal.classList.add('hidden');
+    deleteConfirmModal.classList.add('modal-hidden');
     diaryToDeleteIndex = null; 
 });
 
@@ -177,7 +121,7 @@ confirmDeleteBtn.addEventListener('click', () => {
         storageData.splice(diaryToDeleteIndex, 1);
         saveToStorage();
         
-        deleteConfirmModal.classList.add('hidden');
+        deleteConfirmModal.classList.add('modal-hidden');
         diaryToDeleteIndex = null;
         
         if(storageData.length === 0) cancelSelectBtn.click();
@@ -185,7 +129,7 @@ confirmDeleteBtn.addEventListener('click', () => {
     }
 });
 
-// Logika Editor & Kertas
+// --- LOGIKA EDITOR, FOTO, & RUANG KERJA ---
 function openEditor() {
     homeScreen.classList.add('hidden');
     editorScreen.classList.remove('hidden');
@@ -211,9 +155,7 @@ saveAndExitBtn.addEventListener('click', () => {
 mainPaper.addEventListener('input', saveCurrentContent);
 
 workspace.addEventListener('click', (e) => {
-    if(e.target === workspace) {
-        mainPaper.focus();
-    }
+    if(e.target === workspace) mainPaper.focus();
 });
 
 document.addEventListener('selectionchange', () => {
@@ -221,7 +163,6 @@ document.addEventListener('selectionchange', () => {
     if (sel.rangeCount > 0) {
         let node = sel.anchorNode;
         if (node.nodeType === 3) node = node.parentNode;
-        
         if (node && node.closest && node.closest('#mainPaper')) {
             savedCursorRange = sel.getRangeAt(0);
         }
@@ -232,7 +173,6 @@ function saveCurrentContent() {
     if (activeDiaryIndex === null) return;
     const strayGhosts = mainPaper.querySelectorAll('.ghost-preview');
     strayGhosts.forEach(g => g.remove());
-
     storageData[activeDiaryIndex].content = mainPaper.innerHTML;
     saveToStorage();
 }
@@ -241,7 +181,6 @@ function saveToStorage() {
     localStorage.setItem('cuteDiariesDataV7', JSON.stringify(storageData));
 }
 
-// Logika Foto
 insertPhotoBtn.addEventListener('click', () => photoInput.click());
 
 photoInput.addEventListener('change', function(e) {
@@ -252,16 +191,9 @@ photoInput.addEventListener('change', function(e) {
             const img = new Image();
             img.onload = function() {
                 const canvas = document.createElement('canvas');
-                let width = img.width;
-                let height = img.height;
-
-                if (width > 500) {
-                    height = Math.round((height * 500) / width);
-                    width = 500;
-                }
-
-                canvas.width = width;
-                canvas.height = height;
+                let width = img.width; let height = img.height;
+                if (width > 500) { height = Math.round((height * 500) / width); width = 500; }
+                canvas.width = width; canvas.height = height;
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
 
@@ -301,23 +233,16 @@ function attachPhotoEventsToPaper() {
         photo.addEventListener('dragstart', (e) => {
             dragTarget = photo;
             setTimeout(() => dragTarget.style.opacity = '0.3', 0);
-            
             ghostPreview = photo.cloneNode(true);
             ghostPreview.classList.add('ghost-preview');
-            
             e.dataTransfer.setData('text/plain', '');
             e.dataTransfer.effectAllowed = 'move';
         });
 
         photo.addEventListener('dragend', (e) => {
             if (dragTarget) dragTarget.style.opacity = '1'; 
-            
-            if (ghostPreview && ghostPreview.parentNode) {
-                ghostPreview.parentNode.removeChild(ghostPreview);
-            }
-            
-            dragTarget = null;
-            ghostPreview = null;
+            if (ghostPreview && ghostPreview.parentNode) ghostPreview.parentNode.removeChild(ghostPreview);
+            dragTarget = null; ghostPreview = null;
             saveCurrentContent();
         });
     });
@@ -327,19 +252,15 @@ mainPaper.addEventListener('dragover', (e) => {
     e.preventDefault();
     if (dragTarget && ghostPreview) {
         let range = null;
-        if (document.caretRangeFromPoint) {
-            range = document.caretRangeFromPoint(e.clientX, e.clientY);
-        } else if (document.caretPositionFromPoint) { 
+        if (document.caretRangeFromPoint) range = document.caretRangeFromPoint(e.clientX, e.clientY);
+        else if (document.caretPositionFromPoint) { 
             let position = document.caretPositionFromPoint(e.clientX, e.clientY);
             if (position) {
                 range = document.createRange();
                 range.setStart(position.offsetNode, position.offset);
             }
         }
-
-        if (range) {
-            range.insertNode(ghostPreview);
-        }
+        if (range) range.insertNode(ghostPreview);
     }
 });
 
@@ -351,20 +272,20 @@ mainPaper.addEventListener('drop', (e) => {
         saveCurrentContent();
     }
 });
-
 document.addEventListener('dragover', (e) => e.preventDefault());
 document.addEventListener('drop', (e) => e.preventDefault());
 
-// ================= LOGIKA MUSIK BACKGROUND (FADE IN & OUT) =================
+// ================= LOGIKA MUSIK & SPLASH SCREEN (ANTI-LAG) =================
 const bgMusic = document.getElementById('bg-music');
-bgMusic.volume = 0; // Mulai dari volume 0 (Bisu)
+bgMusic.volume = 0; 
 let isFadingOut = false;
+let fadeInterval = null; // Memori agar proses fade tidak bertabrakan
 
-// Fungsi untuk menaikkan volume perlahan (Fade In)
 function fadeInMusic() {
-    bgMusic.play();
-    let vol = 0;
-    const fadeInterval = setInterval(() => {
+    if(fadeInterval) clearInterval(fadeInterval);
+    bgMusic.play().catch(e => console.log("Menunggu interaksi user"));
+    let vol = bgMusic.volume;
+    fadeInterval = setInterval(() => {
         if (vol < 0.95) {
             vol += 0.05;
             bgMusic.volume = vol;
@@ -372,33 +293,81 @@ function fadeInMusic() {
             bgMusic.volume = 1;
             clearInterval(fadeInterval);
         }
-    }, 150); // Kecepatan transisi fade in
+    }, 200);
 }
 
-// Fungsi untuk menurunkan volume perlahan (Fade Out) dan mengulang lagu
 function fadeOutMusic() {
     isFadingOut = true;
+    if(fadeInterval) clearInterval(fadeInterval);
     let vol = bgMusic.volume;
-    const fadeInterval = setInterval(() => {
+    fadeInterval = setInterval(() => {
         if (vol > 0.05) {
             vol -= 0.05;
             bgMusic.volume = vol;
         } else {
             bgMusic.volume = 0;
             clearInterval(fadeInterval);
-            
-            // Ulangi lagu dari awal setelah fade out selesai
             bgMusic.currentTime = 0;
             isFadingOut = false;
             fadeInMusic(); 
         }
-    }, 150); // Kecepatan transisi fade out
+    }, 200);
 }
 
-// Sensor untuk mendeteksi kapan lagu akan segera habis
 bgMusic.addEventListener('timeupdate', () => {
-    // Jika sisa lagu kurang dari 4 detik, mulai efek fade out
     if (!isNaN(bgMusic.duration) && (bgMusic.duration - bgMusic.currentTime <= 4) && !isFadingOut) {
         fadeOutMusic();
+    }
+});
+
+// LOGIKA LAYAR PEMBUKA (3 FASE)
+const splashScreen = document.getElementById('splash-screen');
+const startTrigger = document.getElementById('start-trigger');
+const splashContent = document.getElementById('splash-content');
+const splashText = document.getElementById('splash-text');
+const splashHint = document.getElementById('splash-hint');
+const mainApp = document.getElementById('main-app');
+
+const textToType = "Logo ini di buat oleh eca pada Jum'at, 18 Juli 2026. Logo ini meskipun terlihat sederhana tapi alasan logo ini di buat sangat indah, yaitu cinta yang tulus dan sederhana layak nya bunga dandelion yang mekar hanya karena cahaya matahari namun ia memberikan keindahan nan tulus untuk semua orang yang melihat nya.";
+let typingIndex = 0;
+let isTyping = false;
+let typingTimer;
+let hasStarted = false; // Sensor Fase
+
+function typeWriter() {
+    if (typingIndex < textToType.length) {
+        isTyping = true;
+        splashText.innerHTML += textToType.charAt(typingIndex);
+        typingIndex++;
+        typingTimer = setTimeout(typeWriter, 40); 
+    } else {
+        isTyping = false;
+        splashHint.classList.add('show-hint'); 
+    }
+}
+
+splashScreen.addEventListener('click', () => {
+    if (!hasStarted) {
+        // FASE 1: Klik pertama untuk memutar musik & memulai animasi
+        hasStarted = true;
+        startTrigger.classList.add('hidden-content');
+        splashContent.classList.remove('hidden-content');
+        
+        fadeInMusic(); // Musik langsung diputar dari detik ini!
+        
+        setTimeout(typeWriter, 2000); // Teks mulai mengetik setelah logo membesar
+    } 
+    else if (isTyping) {
+        // FASE 2: Jika sedang mengetik, klik akan mempercepat (Skip) tulisan
+        clearTimeout(typingTimer);
+        splashText.innerHTML = textToType;
+        typingIndex = textToType.length;
+        isTyping = false;
+        splashHint.classList.add('show-hint');
+    } 
+    else {
+        // FASE 3: Tulisan selesai, klik akan menutup layar pembuka
+        splashScreen.classList.add('splash-hidden');
+        mainApp.classList.remove('app-blurred'); 
     }
 });

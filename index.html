@@ -10,13 +10,21 @@
 
     <!-- ================= LAYAR PEMBUKA (SPLASH SCREEN) ================= -->
     <div id="splash-screen">
-        <!-- Pastikan gambar icon.ico ada di folder yang sama di GitHub -->
-        <img id="splash-logo" src="icon.ico" alt="Logo">
-        <p id="splash-text"></p>
-        <span id="splash-hint">Klik layar untuk melanjutkan...</span>
+        <!-- Pemicu Musik (Harus diklik dulu agar browser mengizinkan audio) -->
+        <div id="start-trigger">
+            <h3 style="color: var(--pink-dark); font-size: 1.5rem;">Ada sebuah kenangan untukmu...</h3>
+            <p class="blink">Ketuk layar untuk membuka ❤️</p>
+        </div>
+
+        <!-- Konten Animasi (Muncul setelah klik pertama) -->
+        <div id="splash-content" class="hidden-content">
+            <img id="splash-logo" src="icon.ico" alt="Logo">
+            <p id="splash-text"></p>
+            <span id="splash-hint">Klik layar untuk melanjutkan...</span>
+        </div>
     </div>
 
-    <!-- ================= SEMUA APLIKASI DIBUNGKUS DI SINI AGAR BISA DI-BLUR ================= -->
+    <!-- ================= SEMUA APLIKASI DIBUNGKUS DI SINI ================= -->
     <div id="main-app" class="app-blurred">
         
         <!-- 1. HALAMAN UTAMA -->
@@ -28,8 +36,8 @@
             <button class="menu-btn btn-continue" id="continueDiaryBtn" disabled>🎀 Lanjutkan Diari</button>
         </div>
 
-        <!-- MODAL POP UP JUDUL -->
-        <div id="custom-prompt" class="hidden">
+        <!-- MODAL POP UP JUDUL (Dengan efek halus) -->
+        <div id="custom-prompt" class="modal-overlay modal-hidden">
             <div class="prompt-box">
                 <h3>Tulis dulu judul nyaa! ❤️</h3>
                 <input type="text" id="promptInput" placeholder="Ketik di sini...">
@@ -40,8 +48,8 @@
             </div>
         </div>
 
-        <!-- MODAL KONFIRMASI HAPUS -->
-        <div id="delete-confirm-modal" class="hidden">
+        <!-- MODAL KONFIRMASI HAPUS (Dengan efek halus) -->
+        <div id="delete-confirm-modal" class="modal-overlay modal-hidden">
             <div class="prompt-box delete-box">
                 <h3 style="color: #ff4766; margin-bottom: 10px;">Yakin Hapus Diari Ini? 🥺</h3>
                 <p style="color: #887068; margin-bottom: 20px; font-size: 0.95rem; font-weight: bold;">Kenangan di dalamnya akan terhapus selamanya...</p>
@@ -76,12 +84,10 @@
                 <button class="btn-bottom btn-home-back" id="saveAndExitBtn">🏠 Simpan & Keluar</button>
             </div>
         </div>
-
     </div>
 
-<!-- ================= AUDIO BACKGROUND TERSEMBUNYI ================= -->
+    <!-- AUDIO BACKGROUND -->
     <audio id="bg-music" src="musik.mp3" preload="auto"></audio>
-
     <script src="script.js"></script>
 </body>
 </html>
