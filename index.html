@@ -33,6 +33,7 @@
             <button class="menu-btn btn-new" id="createNewDiaryBtn">🌸 Buat Diary Baru</button>
             <button class="menu-btn btn-continue" id="continueDiaryBtn" disabled>🎀 Lanjutkan Diary</button>
             <button class="menu-btn btn-credit" id="creditBtn" style="margin-top: 10px;">✨ Credit</button>
+<button class="menu-btn btn-changelog" id="changelogBtn" style="margin-top: 10px;">📜 Changelog</button>
         </div>
 
         <!-- MODAL POP UP JUDUL -->
@@ -75,6 +76,49 @@
                 
                 <div class="prompt-btns">
                     <button id="closeCreditBtn" style="flex-grow: 1; background: #ff4766; color: white;">Tutup</button>
+                </div>
+            </div>
+        </div>
+
+<!-- MODAL CHANGELOG (FITUR BARU) -->
+        <div id="changelog-modal" class="modal-overlay modal-hidden">
+            <div class="prompt-box" style="text-align: left; max-width: 400px;">
+                <h3 style="color: #ff4766; margin-bottom: 15px; font-size: 1.5rem; text-align: center;">Changelog 📜</h3>
+                
+                <!-- Area yang bisa di-scroll -->
+                <div class="scrollable-changelog" style="max-height: 250px; overflow-y: auto; color: #5d4037; font-size: 0.9rem; padding-right: 10px; line-height: 1.5;">
+                    
+                    <p style="color: #ff4766; font-weight: bold; margin-bottom: 3px;">V4.0 (The Premium Overhaul)</p>
+                    <ul style="margin-top: 0; padding-left: 15px; margin-bottom: 12px;">
+                        <li>Rebranding nama dari Diari menjadi Diary.</li>
+                        <li>Implementasi Font elegan (SingLove).</li>
+                        <li>Penambahan halaman Credit & Changelog.</li>
+                    </ul>
+
+                    <p style="color: #ff4766; font-weight: bold; margin-bottom: 3px;">V3.0 (The Aesthetic & Audio)</p>
+                    <ul style="margin-top: 0; padding-left: 15px; margin-bottom: 12px;">
+                        <li>Splash Screen 3 Fase & Teks Mengetik.</li>
+                        <li>Musik latar Anti-lag (Web Audio API).</li>
+                        <li>3 Mode Kursor Kustom & Animasi Pop-up Halus.</li>
+                    </ul>
+
+                    <p style="color: #ff4766; font-weight: bold; margin-bottom: 3px;">V2.0 (The Cloud-Wrapper)</p>
+                    <ul style="margin-top: 0; padding-left: 15px; margin-bottom: 12px;">
+                        <li>Berwujud Aplikasi Desktop (.exe).</li>
+                        <li>Update otomatis via GitHub.</li>
+                        <li>Pelindung Anti-Blok teks.</li>
+                    </ul>
+
+                    <p style="color: #ff4766; font-weight: bold; margin-bottom: 3px;">V1.0 (The Foundation)</p>
+                    <ul style="margin-top: 0; padding-left: 15px; margin-bottom: 0;">
+                        <li>Rilis perdana aplikasi web dasar.</li>
+                        <li>Fitur mengetik bebas & drag-drop foto.</li>
+                    </ul>
+
+                </div>
+                
+                <div class="prompt-btns" style="margin-top: 15px;">
+                    <button id="closeChangelogBtn" style="flex-grow: 1; background: #ff4766; color: white;">Tutup</button>
                 </div>
             </div>
         </div>

@@ -45,6 +45,11 @@ const creditBtn = document.getElementById('creditBtn');
 const creditModal = document.getElementById('credit-modal');
 const closeCreditBtn = document.getElementById('closeCreditBtn');
 
+// Elemen Modal Changelog
+const changelogBtn = document.getElementById('changelogBtn');
+const changelogModal = document.getElementById('changelog-modal');
+const closeChangelogBtn = document.getElementById('closeChangelogBtn');
+
 function updateHomeButtons() {
     if (storageData && storageData.length > 0) {
         continueDiaryBtn.removeAttribute('disabled');
@@ -61,6 +66,15 @@ creditBtn.addEventListener('click', () => {
 
 closeCreditBtn.addEventListener('click', () => {
     creditModal.classList.add('modal-hidden');
+});
+
+// --- LOGIKA POP-UP CHANGELOG ---
+changelogBtn.addEventListener('click', () => {
+    changelogModal.classList.remove('modal-hidden');
+});
+
+closeChangelogBtn.addEventListener('click', () => {
+    changelogModal.classList.add('modal-hidden');
 });
 
 // --- LOGIKA POP-UP BUAT DIARI BARU (MENGGUNAKAN ANIMASI HALUS) ---
