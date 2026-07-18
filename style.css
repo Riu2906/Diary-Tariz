@@ -169,7 +169,15 @@ h1.title {
 /* ================= SCREEN RUANG EDIT DIARI ================= */
 #editor-screen {
     width: 100%; height: 100vh; display: flex; flex-direction: column;
-    background: var(--bg-gradient); position: absolute; top: 0; left: 0; z-index: 5;
+    /* Hapus background var(--bg-gradient) agar latar body terlihat */
+    background: transparent !important; 
+    position: absolute; top: 0; left: 0; z-index: 5;
+}
+
+.diary-paper {
+    /* Buat kertas agak transparan (90%) agar warna background Lava Lamp tetap terasa */
+    background-color: rgba(255, 253, 249, 0.9) !important; 
+    /* ... (biarkan properti lainnya tetap sama) */
 }
 #top-toolbar {
     background: rgba(255, 255, 255, 0.85); padding: 15px 30px; display: flex; align-items: center;
