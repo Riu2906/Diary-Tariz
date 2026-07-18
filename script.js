@@ -215,6 +215,10 @@ photoInput.addEventListener('change', function(e) {
 function attachPhotoEventsToPaper() {
     const photos = mainPaper.querySelectorAll('.diary-photo:not(.ghost-preview)');
     photos.forEach(photo => {
+        // CEGAH BUG DUPLIKAT: Pastikan foto hanya disuntik fungsi geser 1 kali
+        if (photo.dataset.isDraggable) return;
+        photo.dataset.isDraggable = "true";
+
         photo.ondblclick = (e) => {
             e.stopPropagation();
             photo.style.float = (photo.style.float === 'right') ? 'left' : 'right';

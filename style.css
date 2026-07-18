@@ -23,15 +23,12 @@ body {
     justify-content: center;
     align-items: center;
     color: #5d4037;
-    /* ANTI-BLOK TEKS (Mencegah teks tersorot biru seperti di web biasa) */
-    -webkit-user-select: none;
-    user-select: none; 
 }
 
-/* Izinkan teks diblok/diketik HANYA di dalam kertas dan input form */
-#mainPaper, input {
-    -webkit-user-select: text;
-    user-select: text;
+/* Pindahkan perlindungan Anti-Blok HANYA ke elemen Menu & Tombol UI saja */
+#home-screen, #select-screen, #top-toolbar, #bottom-bar, #custom-prompt {
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .hidden { display: none !important; }
