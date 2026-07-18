@@ -356,3 +356,66 @@ button:focus,
 #splash-screen * {
     cursor: url('kursor-biasa.png') 16 16, auto !important;
 }
+
+/* ================= ANIMASI GLOBAL SEMUA TOMBOL (V5.0) ================= */
+button {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+button:hover {
+    transform: scale(1.08) translateY(-3px) !important;
+    box-shadow: 0 8px 15px rgba(255, 105, 180, 0.4) !important;
+    filter: brightness(1.1);
+}
+
+/* ================= DESAIN TOMBOL KELUAR DI KANAN BAWAH ================= */
+.btn-exit {
+    position: fixed; /* Membuatnya menempel di sudut layar */
+    bottom: 30px; 
+    right: 30px;
+    z-index: 100;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: #d8435c;
+    border: 3px dashed #fff; /* Bingkai putus-putus lucu */
+    border-radius: 30px; /* Bentuk pil oval */
+    padding: 12px 25px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 5px 15px rgba(255, 154, 158, 0.6);
+    /* Animasi melayang-layang tiada henti */
+    animation: floatUpDown 2.5s ease-in-out infinite; 
+}
+
+@keyframes floatUpDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.btn-exit:hover {
+    background: linear-gradient(135deg, #fecfef 0%, #ff9a9e 100%);
+    animation-play-state: paused; /* Berhenti melayang saat kursor mendekat */
+}
+
+/* ================= DESAIN KOTAK POP-UP KELUAR ================= */
+.exit-box {
+    background: #fff0f5; /* Warna pink super lembut */
+    border: 3px dashed #ff9a9e;
+    border-radius: 25px !important;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(255, 105, 180, 0.25);
+}
+
+#cancelExitBtn {
+    background: #f0f0f0;
+    color: #777;
+    border-radius: 15px;
+}
+#cancelExitBtn:hover { background: #e4e4e4; }
+
+#confirmExitBtn {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: #d8435c;
+    flex-grow: 1;
+    border-radius: 15px;
+}
+#confirmExitBtn:hover { background: linear-gradient(135deg, #fecfef 0%, #ff9a9e 100%); }

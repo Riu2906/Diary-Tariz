@@ -36,6 +36,8 @@
 <button class="menu-btn btn-changelog" id="changelogBtn" style="margin-top: 10px;">📜 Changelog</button>
             <!-- LINK DOWNLOAD VERSI EXE -->
             <a href="https://github.com/Riu2906/Diary-Tariz/releases/download/Download/Diary_Tariz_Setup.exe" id="downloadExeLink" class="download-link">dapatkan versi windows app</a>
+<!-- TOMBOL KELUAR (KHUSUS VERSI APP - DI KANAN BAWAH) -->
+            <button class="btn-exit" id="exitAppBtn" style="display: none;">❌ Keluar</button>
 
         </div>
 
@@ -122,6 +124,18 @@
                 
                 <div class="prompt-btns" style="margin-top: 15px;">
                     <button id="closeChangelogBtn" style="flex-grow: 1; background: #ff4766; color: white;">Tutup</button>
+                </div>
+            </div>
+        </div>
+
+<!-- MODAL KONFIRMASI KELUAR (SUPER LUCU) -->
+        <div id="exit-confirm-modal" class="modal-overlay modal-hidden">
+            <div class="prompt-box exit-box">
+                <h3 style="color: #ff4766; margin-bottom: 10px; font-size: 1.5rem;">Mau pergi sekarang? 🥺</h3>
+                <p style="color: #887068; margin-bottom: 20px; font-size: 1.05rem; font-weight: bold;">Eca yakin mau nutup diary-nya?</p>
+                <div class="prompt-btns">
+                    <button id="cancelExitBtn">Nanti Dulu</button>
+                    <button id="confirmExitBtn">Iya, Dadah! 👋</button>
                 </div>
             </div>
         </div>

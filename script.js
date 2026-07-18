@@ -50,6 +50,12 @@ const changelogBtn = document.getElementById('changelogBtn');
 const changelogModal = document.getElementById('changelog-modal');
 const closeChangelogBtn = document.getElementById('closeChangelogBtn');
 
+// Elemen Modal Exit
+const exitAppBtn = document.getElementById('exitAppBtn');
+const exitConfirmModal = document.getElementById('exit-confirm-modal');
+const cancelExitBtn = document.getElementById('cancelExitBtn');
+const confirmExitBtn = document.getElementById('confirmExitBtn');
+
 function updateHomeButtons() {
     if (storageData && storageData.length > 0) {
         continueDiaryBtn.removeAttribute('disabled');
@@ -409,11 +415,39 @@ splashScreen.addEventListener('click', () => {
 // ================= DETEKSI PLATFORM (WEB VS WINDOWS EXE) =================
 const downloadExeLink = document.getElementById('downloadExeLink');
 
-// Membaca "KTP Digital" dari sistem yang membuka aplikasi ini
+// Membaca "KTP Digital" sistem
 const userAgent = navigator.userAgent.toLowerCase();
 const isElectron = userAgent.indexOf('electron') > -1;
 
-// Jika dibuka melalui Aplikasi .EXE (Electron), sembunyikan tombol download!
-if (isElectron && downloadExeLink) {
-    downloadExeLink.style.display = 'none';
+if (isElectron) {
+    // JIKA DI APLIKASI EXE: Sembunyikan tulisan download, Munculkan tombol Keluar
+    if (downloadExeLink) downloadExeLink.style.display = 'none';
+    if (exitAppBtn) {
+        exitAppBtn.style.display = 'inline-block';
+        
+        // Logika saat tombol Exit di kanan bawah ditekan
+        exitAppBtn.addEventListener('click', () => {
+            exitConfirmModal.classList.remove('modal-hidden');
+        });
+    }
+} else {
+    // JIKA DI WEB BROWSER BIASA: Tombol keluar tetap tersembunyi
+    if (exitAppBtn) exitAppBtn.style.display = 'none';
+}
+
+// Logika Batal Keluar (Menutup pop-up lucu)
+if (cancelExitBtn) {
+    cancelExitBtn.addEventListener('click', () => {
+        exitConfirmModal.classList.add('modal-hidden');
+    });
+}
+
+// Logika Jadi Keluar (Menutup Aplikasi)
+if (confirmExitBtn) {
+    confirmExitBtn.addEventListener('click', () => {
+        confirmExitBtn.innerHTML = "Sampai Jumpa... ❤️";
+        setTimeout(() => {
+            window.close();
+        }, 800);
+    });
 }
