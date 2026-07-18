@@ -431,30 +431,22 @@ button:active {
 }
 #confirmExitBtn:hover { background: linear-gradient(135deg, #fecfef 0%, #ff9a9e 100%); }
 
-/* ================= BACKGROUND HOMEPAGE GELOMBANG GRADIENT (V5.0) ================= */
-/* 
-   Teknik Fluid Gradient: Latar belakang dibuat 4x lipat lebih besar (400%),
-   lalu kita geser koordinatnya secara berulang.
-*/
-
-/* Mode App: 60 FPS (Menggunakan transisi ease-in-out bawaan Graphic Card yang sangat mulus) */
-.bg-anim-app {
-    background: linear-gradient(-45deg, #ff9a9e, #fecfef, #fbc2eb, #ffb6c1, #ffdde1);
-    background-size: 400% 400%;
-    animation: fluidGradient 15s ease-in-out infinite;
-}
-
-/* Mode Web: 30 FPS (Durasi 15 detik dikali 30 frame = 450 steps) 
-   Ini memaksa browser merender seperti stop-motion sangat halus untuk menghemat RAM */
-.bg-anim-web {
-    background: linear-gradient(-45deg, #ff9a9e, #fecfef, #fbc2eb, #ffb6c1, #ffdde1);
-    background-size: 400% 400%;
-    animation: fluidGradient 15s steps(450, end) infinite;
-}
-
-/* Kunci Pergerakan: Mulai dari Kiri, ke Kanan, lalu balik ke Kiri lagi (Seamless Loop) */
-@keyframes fluidGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* ================= BACKGROUND INTERAKTIF MENGIKUTI KURSOR (V5.0 REVISI) ================= */
+body {
+    /* Base warna pink muda yang lembut */
+    background-color: #ffe4e1; 
+    
+    /* Lingkaran pink tua yang melacak koordinat X dan Y kursor */
+    background-image: radial-gradient(
+        circle 400px at var(--x, 50%) var(--y, 50%), 
+        rgba(255, 105, 180, 0.25), /* Warna inti (pink tua transparan) */
+        transparent 70% /* Tepi yang memudar halus menyatu dengan warna dasar */
+    );
+    
+    height: 100vh;
+    overflow: hidden;
+    color: #5d4037;
+    
+    /* Jika kursor keluar layar, gradien akan kembali ke tengah dengan halus */
+    transition: background-image 0.2s ease-out; 
 }

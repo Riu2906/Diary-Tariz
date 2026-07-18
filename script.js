@@ -412,20 +412,23 @@ splashScreen.addEventListener('click', () => {
     }
 });
 
+// ================= EFEK BACKGROUND MENGIKUTI KURSOR =================
+// Radar ini akan terus mengirimkan posisi X dan Y ke dalam CSS
+document.addEventListener('mousemove', (e) => {
+    document.body.style.setProperty('--x', e.clientX + 'px');
+    document.body.style.setProperty('--y', e.clientY + 'px');
+});
+
 // ================= DETEKSI PLATFORM (WEB VS WINDOWS EXE) =================
 const downloadExeLink = document.getElementById('downloadExeLink');
+const exitAppBtn = document.getElementById('exitAppBtn'); // Pastikan dideklarasikan di sini atau di atas
 
-// Membaca "KTP Digital" sistem
 const userAgent = navigator.userAgent.toLowerCase();
 const isElectron = userAgent.indexOf('electron') > -1;
 
 if (isElectron) {
-    // ======== MODE APLIKASI WINDOWS (.EXE) ========
+    // ======== MODE APLIKASI WINDOWS ========
     if (downloadExeLink) downloadExeLink.style.display = 'none';
-    
-    // Aktifkan Background 60 FPS
-    document.body.classList.add('bg-anim-app');
-
     if (exitAppBtn) {
         exitAppBtn.style.display = 'inline-block';
         exitAppBtn.addEventListener('click', () => {
@@ -435,9 +438,6 @@ if (isElectron) {
 } else {
     // ======== MODE WEB BROWSER ========
     if (exitAppBtn) exitAppBtn.style.display = 'none';
-    
-    // Aktifkan Background 30 FPS pada SELURUH HALAMAN
-    document.body.classList.add('bg-anim-web');
 }
 
 // Logika Batal Keluar (Menutup pop-up lucu)
