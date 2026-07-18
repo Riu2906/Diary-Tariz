@@ -414,9 +414,35 @@ splashScreen.addEventListener('click', () => {
 
 // ================= EFEK BACKGROUND MENGIKUTI KURSOR =================
 // Radar ini akan terus mengirimkan posisi X dan Y ke dalam CSS
+// ================= EFEK BACKGROUND MENGIKUTI KURSOR DENGAN DELAY (LAVA LAMP) =================
+// Menentukan titik pusat awal saat web baru dibuka
+let targetX = window.innerWidth / 2;
+let targetY = window.innerHeight / 2;
+let currentX = targetX;
+let currentY = targetY;
+
+// 1. Radar hanya bertugas menangkap koordinat asli kursor secara *real-time*
 document.addEventListener('mousemove', (e) => {
-    document.body.style.setProperty('--x', e.clientX + 'px');
-    document.body.style.setProperty('--y', e.clientY + 'px');
+    targetX = e.clientX;
+    targetY = e.clientY;
+});
+
+// 2. Mesin Fisika (Lerp) untuk menciptakan efek tertinggal / licin seperti cairan
+function animateLavaCursor() {
+    // Angka 0.06 adalah tingkat kelicinan (semakin kecil angkanya, semakin jauh/lambat ekornya tertinggal)
+    currentX += (targetX - currentX) * 0.06;
+    currentY += (targetY - currentY) * 0.06;
+
+    // Suntikkan posisi yang sudah dilambatkan ke dalam CSS
+    document.body.style.setProperty('--x', currentX + 'px');
+    document.body.style.setProperty('--y', currentY + 'px');
+
+    // Looping tanpa henti menggunakan frekuensi monitor (60/144 FPS)
+    requestAnimationFrame(animateLavaCursor);
+}
+
+// 3. Nyalakan mesin fisika
+animateLavaCursor();
 });
 
 // ================= DETEKSI PLATFORM (WEB VS WINDOWS EXE) =================

@@ -431,22 +431,28 @@ button:active {
 }
 #confirmExitBtn:hover { background: linear-gradient(135deg, #fecfef 0%, #ff9a9e 100%); }
 
-/* ================= BACKGROUND INTERAKTIF MENGIKUTI KURSOR (V5.0 REVISI) ================= */
+/* ================= BACKGROUND INTERAKTIF (LAVA LAMP & DELAY KURSOR) ================= */
 body {
-    /* Base warna pink muda yang lembut */
-    background-color: #ffe4e1; 
-    
-    /* Lingkaran pink tua yang melacak koordinat X dan Y kursor */
+    /* Animasi warna dasar bergerak bagai cairan lava */
+    animation: lavaLampColor 12s ease-in-out infinite alternate;
+
+    /* Lingkaran cahaya pink (radius diperbesar sedikit agar ekornya terlihat dramatis) */
     background-image: radial-gradient(
-        circle 400px at var(--x, 50%) var(--y, 50%), 
-        rgba(255, 105, 180, 0.25), /* Warna inti (pink tua transparan) */
-        transparent 70% /* Tepi yang memudar halus menyatu dengan warna dasar */
+        circle 500px at var(--x, 50%) var(--y, 50%), 
+        rgba(255, 105, 180, 0.4), /* Warna inti sedikit lebih tebal */
+        transparent 70% 
     );
     
     height: 100vh;
     overflow: hidden;
     color: #5d4037;
-    
-    /* Jika kursor keluar layar, gradien akan kembali ke tengah dengan halus */
-    transition: background-image 0.2s ease-out; 
+    /* Kita menghapus atribut transition di sini, karena efek 'delay' sekarang diambil alih 100% oleh JavaScript */
+}
+
+/* Kunci Animasi Perubahan Warna Cairan di sekitar rona Pink/Peach */
+@keyframes lavaLampColor {
+    0% { background-color: #ffe4e1; }   /* Pink Muda Lembut */
+    33% { background-color: #f8bbd0; }  /* Pink Sedikit Gelap */
+    66% { background-color: #fce4ec; }  /* Pink Keputihan */
+    100% { background-color: #fad0c4; } /* Peach Pink */
 }
