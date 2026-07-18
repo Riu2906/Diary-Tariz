@@ -421,7 +421,6 @@ document.addEventListener('mousemove', (e) => {
 
 // ================= DETEKSI PLATFORM (WEB VS WINDOWS EXE) =================
 const downloadExeLink = document.getElementById('downloadExeLink');
-const exitAppBtn = document.getElementById('exitAppBtn'); // Pastikan dideklarasikan di sini atau di atas
 
 const userAgent = navigator.userAgent.toLowerCase();
 const isElectron = userAgent.indexOf('electron') > -1;
