@@ -16,6 +16,7 @@ let savedCursorRange = null;
 const homeScreen = document.getElementById('home-screen');
 const selectScreen = document.getElementById('select-screen');
 const editorScreen = document.getElementById('editor-screen');
+const themeSwitcher = document.getElementById('theme-switcher');
 
 const createNewDiaryBtn = document.getElementById('createNewDiaryBtn');
 const continueDiaryBtn = document.getElementById('continueDiaryBtn');
@@ -109,16 +110,49 @@ promptOk.addEventListener('click', () => {
 });
 
 // --- LOGIKA LANJUTKAN & HAPUS DIARI ---
+// --- LOGIKA LANJUTKAN DIARI ---
 continueDiaryBtn.addEventListener('click', () => {
     homeScreen.classList.add('hidden');
     selectScreen.classList.remove('hidden');
     renderDiaryList();
+    if (exitAppBtn) exitAppBtn.style.display = 'none'; // Sembunyikan Exit
 });
 
 cancelSelectBtn.addEventListener('click', () => {
     selectScreen.classList.add('hidden');
     homeScreen.classList.remove('hidden');
     updateHomeButtons();
+    if (isElectron && exitAppBtn) exitAppBtn.style.display = 'inline-block'; // Munculkan Exit
+});
+
+// --- LOGIKA EDITOR RUANG KERJA ---
+function openEditor() {
+    homeScreen.classList.add('hidden');
+    editorScreen.classList.remove('hidden');
+    
+    // Sembunyikan Exit & Tombol Tema saat menulis
+    if (exitAppBtn) exitAppBtn.style.display = 'none';
+    if (themeSwitcher) themeSwitcher.style.display = 'none';
+    
+    diaryTitleDisplay.textContent = "📖 " + storageData[activeDiaryIndex].title;
+    mainPaper.innerHTML = storageData[activeDiaryIndex].content || '<div><br></div>';
+    
+    setTimeout(() => {
+        mainPaper.focus();
+        document.execCommand('selectAll', false, null);
+        document.getSelection().collapseToEnd();
+    }, 50);
+}
+
+saveAndExitBtn.addEventListener('click', () => {
+    saveCurrentContent();
+    editorScreen.classList.add('hidden');
+    homeScreen.classList.remove('hidden');
+    updateHomeButtons();
+    
+    // Munculkan kembali Exit & Tombol Tema saat kembali ke Home
+    if (isElectron && exitAppBtn) exitAppBtn.style.display = 'inline-block';
+    if (themeSwitcher) themeSwitcher.style.display = 'flex';
 });
 
 function renderDiaryList() {
@@ -370,7 +404,7 @@ const splashText = document.getElementById('splash-text');
 const splashHint = document.getElementById('splash-hint');
 const mainApp = document.getElementById('main-app');
 
-const textToType = "Logo ini dibuat oleh Eca pada Sabtu, 18 Juli 2026. Meski tampil dengan desain yang sederhana, setiap bagiannya memiliki makna yang mendalam. Logo ini lahir dari ketulusan dan kasih sayang yang diwujudkan dalam bentuk yang sederhana, namun penuh arti. Seperti bunga dandelion yang tumbuh dan mekar karena cahaya matahari, logo ini melambangkan cinta yang tumbuh dengan kehangatan, keikhlasan, dan harapan. Kesederhanaannya justru menjadi sumber keindahan yang mampu menghadirkan rasa nyaman, kebahagiaan, dan makna bagi setiap orang yang melihatnya.";
+cconst textToType = "Di tengah jarak yang membentang, Iki merajut kerinduan nya untuk bercerita bersama Eca dalam setiap baris coding Diary ini. Saat ruang untuk bercerita terhalang oleh waktu, Diary ini lahir dari sepi—sebuah ruang rahasia untuk menyimpan segala keluh dan kisah, menanti hari di mana jarak tak lagi memisahkan kita. Dan logo sederhana ini, sebuah karya sederhana dari Eca, yang merupakan wujud dari cinta yang tulus dan apa adanya. Layaknya bunga dandelion yang mekar memperindah semesta, tak menuntut apapun selain hangatnya cahaya matahari.";
 let typingIndex = 0;
 let isTyping = false;
 let typingTimer;
@@ -411,6 +445,9 @@ splashScreen.addEventListener('click', () => {
         // FASE 3: Tulisan selesai, klik akan menutup layar pembuka
         splashScreen.classList.add('splash-hidden');
         mainApp.classList.remove('app-blurred'); 
+        
+        // Memunculkan tombol Exit HANYA setelah masuk ke Homepage
+        if (isElectron && exitAppBtn) exitAppBtn.style.display = 'inline-block';
     }
 });
 
@@ -503,7 +540,7 @@ if (isElectron) {
     // ======== MODE APLIKASI WINDOWS ========
     if (downloadExeLink) downloadExeLink.style.display = 'none';
     if (exitAppBtn) {
-        exitAppBtn.style.display = 'inline-block';
+        // BARIS DISPLAY DI SINI DIHAPUS, SISAKAN EVENT LISTENER-NYA SAJA:
         exitAppBtn.addEventListener('click', () => {
             exitConfirmModal.classList.remove('modal-hidden');
         });
