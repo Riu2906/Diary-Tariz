@@ -404,7 +404,7 @@ const splashText = document.getElementById('splash-text');
 const splashHint = document.getElementById('splash-hint');
 const mainApp = document.getElementById('main-app');
 
-cconst textToType = "Di tengah jarak yang membentang, Iki merajut kerinduan nya untuk bercerita bersama Eca dalam setiap baris coding Diary ini. Saat ruang untuk bercerita terhalang oleh waktu, Diary ini lahir dari sepi—sebuah ruang rahasia untuk menyimpan segala keluh dan kisah, menanti hari di mana jarak tak lagi memisahkan kita. Dan logo sederhana ini, sebuah karya sederhana dari Eca, yang merupakan wujud dari cinta yang tulus dan apa adanya. Layaknya bunga dandelion yang mekar memperindah semesta, tak menuntut apapun selain hangatnya cahaya matahari.";
+const textToType = "Di tengah jarak yang membentang, Iki merajut kerinduan nya untuk bercerita bersama Eca dalam setiap baris coding Diary ini. Saat ruang untuk bercerita terhalang oleh waktu, Diary ini lahir dari sepi—sebuah ruang rahasia untuk menyimpan segala keluh dan kisah, menanti hari di mana jarak tak lagi memisahkan kita. Dan logo sederhana ini, sebuah karya sederhana dari Eca, yang merupakan wujud dari cinta yang tulus dan apa adanya. Layaknya bunga dandelion yang mekar memperindah semesta, tak menuntut apapun selain hangatnya cahaya matahari.";
 let typingIndex = 0;
 let isTyping = false;
 let typingTimer;
