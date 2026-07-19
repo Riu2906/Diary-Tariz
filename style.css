@@ -575,3 +575,44 @@ body.theme-boy .btn-delete-diary { background: #e53935 !important; }
     transition: transform 0.2s, background 0.2s;
 }
 #photo-tooltip button:hover { background: #f0f0f0; transform: scale(1.1); }
+
+/* ================= EFEK SAKURA HATI JATUH (V 7.2) ================= */
+#sakura-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    pointer-events: none; /* Wajib! Agar tidak menghalangi kursor saat klik tombol */
+    z-index: 0;
+    border-radius: 30px; /* Menyesuaikan dengan lengkungan kotak Home */
+}
+
+.sakura-heart {
+    position: absolute;
+    top: -10%;
+    color: rgba(255, 255, 255, 0.45); /* Putih transparan, akan membaur dengan latar pink/biru */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); /* Efek cahaya tipis */
+    pointer-events: none;
+    /* Menggabungkan animasi jatuh dan bergoyang */
+    animation: fall linear forwards, sway ease-in-out infinite alternate;
+}
+
+/* Animasi Gravitasi: Jatuh lalu menghilang mulus di 85% perjalanan */
+@keyframes fall {
+    0% { top: -10%; opacity: 0; }
+    10% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { top: 85%; opacity: 0; } 
+}
+
+/* Animasi Angin: Bergoyang ke kiri-kanan secara acak */
+@keyframes sway {
+    0% { transform: translateX(0px) rotate(0deg); }
+    100% { transform: translateX(35px) rotate(45deg); }
+}
+
+/* Agar judul dan tombol tetap berada di atas hujan sakura */
+#home-screen > h1, #home-screen > p, #home-screen > button, #home-screen > a {
+    position: relative;
+    z-index: 10;
+}

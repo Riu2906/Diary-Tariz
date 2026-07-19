@@ -602,3 +602,39 @@ function toggleExitButton(show) {
 //   toggleExitButton(true);
 // Di dalam saveAndExitBtn.addEventListener('click', ...):
 //   toggleExitButton(true);
+
+// ================= EFEK SAKURA HATI JATUH (V 7.2) =================
+const sakuraContainer = document.getElementById('sakura-container');
+
+function createSakura() {
+    // Hanya memproduksi sakura jika berada di Home Screen
+    if (!sakuraContainer || homeScreen.classList.contains('hidden')) return;
+    
+    const heart = document.createElement('div');
+    heart.classList.add('sakura-heart');
+    heart.innerText = '♡'; // Karakter hati kosong yang estetik
+    
+    // Posisi X (Kiri-Kanan) secara acak (0% - 100%)
+    heart.style.left = Math.random() * 100 + '%';
+    
+    // Ukuran acak agar terlihat ada kedalaman/dimensi (0.7rem - 1.3rem)
+    const size = Math.random() * 0.6 + 0.7;
+    heart.style.fontSize = size + 'rem';
+    
+    // Durasi jatuh secara acak (6 - 10 detik) agar tidak seragam
+    const fallDuration = Math.random() * 4 + 6;
+    // Durasi goyangan angin acak (2 - 4 detik)
+    const swayDuration = Math.random() * 2 + 2;
+    
+    heart.style.animationDuration = `${fallDuration}s, ${swayDuration}s`; 
+    
+    sakuraContainer.appendChild(heart);
+    
+    // Protokol Pembersihan: Hapus elemen dari memori setelah selesai jatuh agar tidak ngelag
+    setTimeout(() => {
+        heart.remove();
+    }, fallDuration * 1000);
+}
+
+// Hujan akan turun setiap 900 milidetik (Pas, tidak terlalu sepi, tidak terlalu ramai)
+setInterval(createSakura, 900);
