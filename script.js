@@ -125,7 +125,7 @@ cancelSelectBtn.addEventListener('click', () => {
     if (isElectron && exitAppBtn) exitAppBtn.style.display = 'inline-block'; // Munculkan Exit
 });
 
-// --- LOGIKA LANJUTKAN DIARI ---
+// --- LOGIKA LANJUTKAN & HAPUS DIARI ---
 continueDiaryBtn.addEventListener('click', () => {
     homeScreen.classList.add('hidden');
     selectScreen.classList.remove('hidden');
@@ -139,38 +139,6 @@ cancelSelectBtn.addEventListener('click', () => {
     homeScreen.classList.remove('hidden');
     updateHomeButtons();
     if (typeof isElectron !== 'undefined' && isElectron && exitAppBtn) exitAppBtn.style.display = 'inline-block';
-    if (typeof toggleExitButton === 'function') toggleExitButton(true);
-});
-
-// --- LOGIKA EDITOR RUANG KERJA ---
-function openEditor() {
-    homeScreen.classList.add('hidden');
-    editorScreen.classList.remove('hidden');
-    
-    // Sembunyikan Exit & Tombol Tema saat menulis
-    if (exitAppBtn) exitAppBtn.style.display = 'none';
-    if (themeSwitcher) themeSwitcher.style.display = 'none';
-    if (typeof toggleExitButton === 'function') toggleExitButton(false);
-    
-    diaryTitleDisplay.textContent = "📖 " + storageData[activeDiaryIndex].title;
-    mainPaper.innerHTML = storageData[activeDiaryIndex].content || '<div><br></div>';
-    
-    setTimeout(() => {
-        mainPaper.focus();
-        document.execCommand('selectAll', false, null);
-        document.getSelection().collapseToEnd();
-    }, 50);
-}
-
-saveAndExitBtn.addEventListener('click', () => {
-    saveCurrentContent();
-    editorScreen.classList.add('hidden');
-    homeScreen.classList.remove('hidden');
-    updateHomeButtons();
-    
-    // Munculkan kembali Exit & Tombol Tema saat kembali ke Home
-    if (typeof isElectron !== 'undefined' && isElectron && exitAppBtn) exitAppBtn.style.display = 'inline-block';
-    if (themeSwitcher) themeSwitcher.style.display = 'flex';
     if (typeof toggleExitButton === 'function') toggleExitButton(true);
 });
 
@@ -216,14 +184,18 @@ confirmDeleteBtn.addEventListener('click', () => {
     }
 });
 
-// --- LOGIKA EDITOR, FOTO, & RUANG KERJA ---
+// --- LOGIKA EDITOR RUANG KERJA ---
 function openEditor() {
     homeScreen.classList.add('hidden');
     editorScreen.classList.remove('hidden');
-    diaryTitleDisplay.textContent = "📖 " + storageData[activeDiaryIndex].title;
     
+    // Sembunyikan Exit & Tombol Tema saat menulis
+    if (exitAppBtn) exitAppBtn.style.display = 'none';
+    if (themeSwitcher) themeSwitcher.style.display = 'none';
+    if (typeof toggleExitButton === 'function') toggleExitButton(false);
+    
+    diaryTitleDisplay.textContent = "📖 " + storageData[activeDiaryIndex].title;
     mainPaper.innerHTML = storageData[activeDiaryIndex].content || '<div><br></div>';
-    attachPhotoEventsToPaper(); 
     
     setTimeout(() => {
         mainPaper.focus();
@@ -237,6 +209,11 @@ saveAndExitBtn.addEventListener('click', () => {
     editorScreen.classList.add('hidden');
     homeScreen.classList.remove('hidden');
     updateHomeButtons();
+    
+    // Munculkan kembali Exit & Tombol Tema saat kembali ke Home
+    if (typeof isElectron !== 'undefined' && isElectron && exitAppBtn) exitAppBtn.style.display = 'inline-block';
+    if (themeSwitcher) themeSwitcher.style.display = 'flex';
+    if (typeof toggleExitButton === 'function') toggleExitButton(true);
 });
 
 mainPaper.addEventListener('input', saveCurrentContent);
@@ -604,7 +581,7 @@ function toggleExitButton(show) {
 //   toggleExitButton(true);
 
 /* ================= EFEK SAKURA HATI JATUH (V 7.2) ================= */
-#sakura-container {
+sakura-container {
     position: fixed; /* Berubah menjadi fixed agar memenuhi layar monitor */
     top: 0; left: 0;
     width: 100vw; height: 100vh;
