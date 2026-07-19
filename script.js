@@ -603,38 +603,35 @@ function toggleExitButton(show) {
 // Di dalam saveAndExitBtn.addEventListener('click', ...):
 //   toggleExitButton(true);
 
-// ================= EFEK SAKURA HATI JATUH (V 7.2) =================
-const sakuraContainer = document.getElementById('sakura-container');
-
-function createSakura() {
-    // Hanya memproduksi sakura jika berada di Home Screen
-    if (!sakuraContainer || homeScreen.classList.contains('hidden')) return;
-    
-    const heart = document.createElement('div');
-    heart.classList.add('sakura-heart');
-    heart.innerText = '♡'; // Karakter hati kosong yang estetik
-    
-    // Posisi X (Kiri-Kanan) secara acak (0% - 100%)
-    heart.style.left = Math.random() * 100 + '%';
-    
-    // Ukuran acak agar terlihat ada kedalaman/dimensi (0.7rem - 1.3rem)
-    const size = Math.random() * 0.6 + 0.7;
-    heart.style.fontSize = size + 'rem';
-    
-    // Durasi jatuh secara acak (6 - 10 detik) agar tidak seragam
-    const fallDuration = Math.random() * 4 + 6;
-    // Durasi goyangan angin acak (2 - 4 detik)
-    const swayDuration = Math.random() * 2 + 2;
-    
-    heart.style.animationDuration = `${fallDuration}s, ${swayDuration}s`; 
-    
-    sakuraContainer.appendChild(heart);
-    
-    // Protokol Pembersihan: Hapus elemen dari memori setelah selesai jatuh agar tidak ngelag
-    setTimeout(() => {
-        heart.remove();
-    }, fallDuration * 1000);
+/* ================= EFEK SAKURA HATI JATUH (V 7.2) ================= */
+#sakura-container {
+    position: fixed; /* Berubah menjadi fixed agar memenuhi layar monitor */
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    overflow: hidden;
+    pointer-events: none; /* Wajib! Agar tidak menghalangi kursor saat klik tombol */
+    z-index: 2; /* Berada di atas latar belakang, tapi di belakang kotak menu */
 }
 
-// Hujan akan turun setiap 900 milidetik (Pas, tidak terlalu sepi, tidak terlalu ramai)
-setInterval(createSakura, 900);
+.sakura-heart {
+    position: absolute;
+    top: -10%;
+    color: rgba(255, 255, 255, 0.75); /* Warna diperterang agar terlihat jelas */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6); /* Efek cahaya (Glow) yang indah */
+    pointer-events: none;
+    animation: fall linear forwards, sway ease-in-out infinite alternate;
+}
+
+/* Animasi Gravitasi: Jatuh lalu menghilang mulus di 90% perjalanan */
+@keyframes fall {
+    0% { top: -10%; opacity: 0; }
+    10% { opacity: 1; }
+    75% { opacity: 1; }
+    100% { top: 90%; opacity: 0; } 
+}
+
+/* Animasi Angin: Bergoyang ke kiri-kanan secara acak */
+@keyframes sway {
+    0% { transform: translateX(0px) rotate(0deg); }
+    100% { transform: translateX(45px) rotate(45deg); }
+}
