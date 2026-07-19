@@ -211,7 +211,9 @@ h1.title {
 .diary-photo {
     max-width: 250px; height: auto; margin: 5px 15px; border: 6px solid white;
     box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: grab; float: left;
-    user-select: none; transition: opacity 0.2s;
+    user-select: none; 
+    /* Transisi diubah agar pergeseran mulus */
+    transition: margin 0.5s ease-in-out, transform 0.4s, opacity 0.2s; 
 }
 .diary-photo:active { cursor: grabbing; }
 
@@ -487,29 +489,38 @@ body {
     opacity: 0.8; /* Sedikit transparan agar menyatu dengan background */
 }
 
-/* ================= TEMA COWO (V 7.0) ================= */
-/* Saat class 'theme-boy' aktif di body, seluruh warna akan ditimpa! */
+/* ================= TEMA COWO (V 7.0 PERFECTED) ================= */
+body { transition: background-color 0.5s ease; } /* Mencegah freeze saat ganti tema */
+
 body.theme-boy {
     background-color: #e3f2fd;
     animation: lavaLampColorBoy 12s ease-in-out infinite alternate;
-    background-image: radial-gradient(
-        circle 500px at var(--x, 50%) var(--y, 50%), 
-        rgba(41, 121, 255, 0.25), /* Cahaya biru maskulin */
-        transparent 70% 
-    );
+    background-image: radial-gradient(circle 500px at var(--x, 50%) var(--y, 50%), rgba(41, 121, 255, 0.25), transparent 70%);
+}
+@keyframes lavaLampColorBoy {
+    0% { background-color: #e3f2fd; } 33% { background-color: #bbdefb; } 66% { background-color: #e8eaf6; } 100% { background-color: #c5cae9; }
 }
 
 /* Modifikasi Warna Komponen untuk Tema Cowo */
 body.theme-boy .btn-new { background: linear-gradient(to right, #82b1ff, #bbdefb); color: #0d47a1; }
 body.theme-boy .btn-continue { background: linear-gradient(to right, #90caf9, #e3f2fd); color: #0d47a1; }
+body.theme-boy .btn-credit { background: linear-gradient(135deg, #7986cb 0%, #9fa8da 100%); }
+body.theme-boy .btn-changelog { background: linear-gradient(135deg, #4db6ac 0%, #80cbc4 100%); }
 body.theme-boy h1.title { color: #1e88e5; }
-body.theme-boy .prompt-box { border-color: #82b1ff; }
+body.theme-boy .prompt-box, body.theme-boy .exit-box, body.theme-boy .delete-box { border-color: #82b1ff; background: #f3f8ff; box-shadow: 0 15px 35px rgba(30, 136, 229, 0.2); }
 body.theme-boy .prompt-box h3, body.theme-boy #exitTitle { color: #1e88e5 !important; }
 body.theme-boy .diary-paper { border-left: 4px double #82b1ff; }
 body.theme-boy .diary-paper::before { background: rgba(130, 177, 255, 0.6); }
-body.theme-boy .btn-home-back { background: #42a5f5; }
-body.theme-boy .btn-home-back:hover { background: #1e88e5; }
+body.theme-boy .btn-home-back, body.theme-boy #promptOk, body.theme-boy #confirmDeleteBtn { background: #42a5f5; color: white;}
+body.theme-boy .btn-home-back:hover, body.theme-boy #promptOk:hover, body.theme-boy #confirmDeleteBtn:hover { background: #1e88e5; }
 body.theme-boy .btn-exit { background: linear-gradient(135deg, #82b1ff 0%, #bbdefb 100%); color: #0d47a1; border-color: #fff; box-shadow: 0 5px 15px rgba(130, 177, 255, 0.6);}
+body.theme-boy #bottom-bar { box-shadow: 0 8px 30px rgba(30, 136, 229, 0.25); }
+body.theme-boy .diary-item { border-color: #bbdefb; }
+body.theme-boy .diary-item:hover { border-color: #1e88e5; background: #e3f2fd; }
+body.theme-boy .diary-title-disp { color: #0d47a1; }
+body.theme-boy .btn-tool { border-color: #90caf9; color: #1e88e5; }
+body.theme-boy .btn-tool:hover { background: #1e88e5; color: white; }
+body.theme-boy .btn-delete-diary { background: #e53935 !important; }
 
 @keyframes lavaLampColorBoy {
     0% { background-color: #e3f2fd; }   

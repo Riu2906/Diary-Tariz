@@ -127,8 +127,8 @@ function renderDiaryList() {
         const li = document.createElement('li');
         li.className = 'diary-item';
         li.innerHTML = `
-            <span style="font-weight:bold; color:#6d4c41;">📖 ${diary.title}</span>
-            <button class="btn-tool" style="background:#ff4766; color:white; border:none; padding:5px 12px;" onclick="deleteDiary(event, ${index})">Hapus</button>
+            <span style="font-weight:bold; color:inherit;">📖 ${diary.title}</span>
+            <button class="btn-tool btn-delete-diary" style="color:white; border:none; padding:5px 12px;" onclick="deleteDiary(event, ${index})">Hapus</button>
         `;
         li.addEventListener('click', () => {
             activeDiaryIndex = index;
@@ -252,56 +252,64 @@ photoInput.addEventListener('change', function(e) {
     }
 });
 
-// ================= LOGIKA TOOLTIP ALIGNMENT FOTO (V 7.0) =================
+// ================= LOGIKA TOOLTIP ALIGNMENT FOTO (V 7.1) =================
 const photoTooltip = document.getElementById('photo-tooltip');
 let currentSelectedPhoto = null;
 
-// Memunculkan tooltip saat kursor menyentuh foto
-document.addEventListener('mouseover', (e) => {
+// Memunculkan tooltip HANYA saat foto di-KLIK
+mainPaper.addEventListener('click', (e) => {
     if (e.target.classList.contains('diary-photo')) {
         currentSelectedPhoto = e.target;
         const rect = currentSelectedPhoto.getBoundingClientRect();
         
-        // Memosisikan Tooltip di samping kanan atas foto
-        photoTooltip.style.top = rect.top + 'px';
-        photoTooltip.style.left = (rect.right + 15) + 'px';
+        // Memosisikan Tooltip tepat di atas tengah foto
+        photoTooltip.style.top = (rect.top - 45) + 'px';
+        photoTooltip.style.left = rect.left + 'px';
         photoTooltip.classList.remove('hidden-tooltip');
-    } 
-    // Menyembunyikan tooltip jika kursor menjauh dari foto DAN tooltip
-    else if (!e.target.closest('#photo-tooltip') && !e.target.classList.contains('diary-photo')) {
-        photoTooltip.classList.add('hidden-tooltip');
     }
 });
 
-// Aksi Tombol Rata Kiri
-document.getElementById('alignLeftBtn').addEventListener('click', () => {
-    if (currentSelectedPhoto) {
-        currentSelectedPhoto.style.display = 'inline-block';
+// Menyembunyikan tooltip jika mengklik di LUAR foto dan luar tooltip
+document.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('diary-photo') && !e.target.closest('#photo-tooltip')) {
+        photoTooltip.classList.add('hidden-tooltip');
+        currentSelectedPhoto = null;
+    }
+});
+
+// Fungsi Penggerak Foto
+function setPhotoAlignment(align) {
+    if (!currentSelectedPhoto) return;
+    
+    // Cek jika posisi yang dipilih sama dengan posisi sekarang, cukup tutup tab
+    let currentAlign = currentSelectedPhoto.dataset.align || 'left';
+    if (currentAlign === align) {
+        photoTooltip.classList.add('hidden-tooltip');
+        return;
+    }
+
+    currentSelectedPhoto.dataset.align = align;
+    if (align === 'left') {
         currentSelectedPhoto.style.float = 'left';
         currentSelectedPhoto.style.margin = '5px 15px 5px 0';
-        saveCurrentContent();
-    }
-});
-
-// Aksi Tombol Rata Tengah
-document.getElementById('alignCenterBtn').addEventListener('click', () => {
-    if (currentSelectedPhoto) {
-        currentSelectedPhoto.style.display = 'block';
+        currentSelectedPhoto.style.display = 'inline-block';
+    } else if (align === 'center') {
         currentSelectedPhoto.style.float = 'none';
         currentSelectedPhoto.style.margin = '15px auto';
-        saveCurrentContent();
-    }
-});
-
-// Aksi Tombol Rata Kanan
-document.getElementById('alignRightBtn').addEventListener('click', () => {
-    if (currentSelectedPhoto) {
-        currentSelectedPhoto.style.display = 'inline-block';
+        currentSelectedPhoto.style.display = 'block';
+    } else if (align === 'right') {
         currentSelectedPhoto.style.float = 'right';
         currentSelectedPhoto.style.margin = '5px 0 5px 15px';
-        saveCurrentContent();
+        currentSelectedPhoto.style.display = 'inline-block';
     }
-});
+    
+    photoTooltip.classList.add('hidden-tooltip');
+    saveCurrentContent();
+}
+
+document.getElementById('alignLeftBtn').addEventListener('click', () => setPhotoAlignment('left'));
+document.getElementById('alignCenterBtn').addEventListener('click', () => setPhotoAlignment('center'));
+document.getElementById('alignRightBtn').addEventListener('click', () => setPhotoAlignment('right'));
 
 // ================= LOGIKA MUSIK (WEB AUDIO API - ANTI LAG) =================
 const bgMusic = document.getElementById('bg-music');
@@ -444,29 +452,52 @@ const themeGirlBtn = document.getElementById('themeGirlBtn');
 const exitTitle = document.getElementById('exitTitle');
 const exitDesc = document.getElementById('exitDesc');
 
+// ================= SISTEM TEMA DINAMIS (COWO/CEWE) =================
+const themeBoyBtn = document.getElementById('themeBoyBtn');
+const themeGirlBtn = document.getElementById('themeGirlBtn');
+const exitTitle = document.getElementById('exitTitle');
+const exitDesc = document.getElementById('exitDesc');
+const delTitle = document.querySelector('.delete-box h3');
+
 function applyTheme(theme) {
     if (theme === 'boy') {
         document.body.classList.add('theme-boy');
         if (createNewDiaryBtn) createNewDiaryBtn.innerHTML = "🔥 Buat Diary Baru";
+        if (continueDiaryBtn) continueDiaryBtn.innerHTML = "📘 Lanjutkan Diary";
+        if (creditBtn) creditBtn.innerHTML = "🛡️ Credit";
+        if (changelogBtn) changelogBtn.innerHTML = "🗺️ Changelog";
+        if (insertPhotoBtn) insertPhotoBtn.innerHTML = "📸 Sisipkan Foto";
+        if (saveAndExitBtn) saveAndExitBtn.innerHTML = "🏕️ Simpan & Keluar";
+        
         if (exitTitle) exitTitle.innerText = "Mau cabut sekarang? 🤨";
         if (exitDesc) exitDesc.innerText = "Iki yakin mau nutup diary-nya?";
-        localStorage.setItem('diaryTheme', 'boy'); // Simpan ke ingatan browser
+        if (delTitle) delTitle.innerText = "Yakin Hapus Diary Ini? 🤨";
+        
+        localStorage.setItem('diaryTheme', 'boy');
     } else {
         document.body.classList.remove('theme-boy');
         if (createNewDiaryBtn) createNewDiaryBtn.innerHTML = "🌸 Buat Diary Baru";
+        if (continueDiaryBtn) continueDiaryBtn.innerHTML = "🎀 Lanjutkan Diary";
+        if (creditBtn) creditBtn.innerHTML = "✨ Credit";
+        if (changelogBtn) changelogBtn.innerHTML = "📜 Changelog";
+        if (insertPhotoBtn) insertPhotoBtn.innerHTML = "📷 Sisipkan Foto";
+        if (saveAndExitBtn) saveAndExitBtn.innerHTML = "🏠 Simpan & Keluar";
+        
         if (exitTitle) exitTitle.innerText = "Mau pergi sekarang? 🥺";
         if (exitDesc) exitDesc.innerText = "Eca yakin mau nutup diary-nya?";
-        localStorage.setItem('diaryTheme', 'girl'); // Simpan ke ingatan browser
+        if (delTitle) delTitle.innerText = "Yakin Hapus Diary Ini? 🥺";
+        
+        localStorage.setItem('diaryTheme', 'girl');
     }
 }
 
-// Muat tema terakhir saat web dibuka (Default: Girl)
+// Mencegah klik nyangkut dengan stopPropagation
+if (themeBoyBtn) themeBoyBtn.addEventListener('click', (e) => { e.stopPropagation(); applyTheme('boy'); });
+if (themeGirlBtn) themeGirlBtn.addEventListener('click', (e) => { e.stopPropagation(); applyTheme('girl'); });
+
+// Muat tema
 let savedTheme = localStorage.getItem('diaryTheme') || 'girl';
 applyTheme(savedTheme);
-
-// Deteksi Klik Tombol Tema
-if (themeBoyBtn) themeBoyBtn.addEventListener('click', () => applyTheme('boy'));
-if (themeGirlBtn) themeGirlBtn.addEventListener('click', () => applyTheme('girl'));
 
 // ================= DETEKSI PLATFORM (WEB VS WINDOWS EXE) =================
 const downloadExeLink = document.getElementById('downloadExeLink');
