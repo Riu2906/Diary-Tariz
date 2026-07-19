@@ -35,6 +35,13 @@
         
         <!-- 1. HALAMAN UTAMA -->
         <div id="home-screen">
+            
+            <!-- TEMA SWITCHER DI HOME SCREEN -->
+            <div id="theme-switcher" style="position: absolute; top: 25px; left: 25px; display: flex; gap: 10px; z-index: 100;">
+                <button id="themeBoyBtn" style="background: #82b1ff; border: 2px solid #fff; border-radius: 50%; width: 45px; height: 45px; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">👦</button>
+                <button id="themeGirlBtn" style="background: #ffb6c1; border: 2px solid #fff; border-radius: 50%; width: 45px; height: 45px; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">👧</button>
+            </div>
+
             <h1 class="title">Diary Tariz❤️</h1>
             <p class="subtitle">Diary ini di coding rizq untuk mengungkapkan perasaanya yang tak tersampaikan</p>
             
@@ -153,8 +160,8 @@
 <!-- MODAL KONFIRMASI KELUAR (SUPER LUCU) -->
         <div id="exit-confirm-modal" class="modal-overlay modal-hidden">
             <div class="prompt-box exit-box">
-                <h3 style="color: #ff4766; margin-bottom: 10px; font-size: 1.5rem;">Mau pergi sekarang? 🥺</h3>
-                <p style="color: #887068; margin-bottom: 20px; font-size: 1.05rem; font-weight: bold;">Eca yakin mau nutup diary-nya?</p>
+                <h3 id="exitTitle" style="color: #ff4766; margin-bottom: 10px; font-size: 1.5rem;">Mau pergi sekarang? 🥺</h3>
+                <p id="exitDesc" style="color: #887068; margin-bottom: 20px; font-size: 1.05rem; font-weight: bold;">Eca yakin mau nutup diary-nya?</p>
                 <div class="prompt-btns">
                     <button id="cancelExitBtn">Nanti Dulu</button>
                     <button id="confirmExitBtn">Iya, Dadah! 👋</button>
@@ -190,6 +197,14 @@
 
     <!-- AUDIO BACKGROUND -->
     <audio id="bg-music" src="musik.mp3" preload="auto"></audio>
+
+<!-- TOOLTIP ALIGNMENT FOTO -->
+    <div id="photo-tooltip" class="hidden-tooltip">
+        <button id="alignLeftBtn" title="Rata Kiri">⬅️</button>
+        <button id="alignCenterBtn" title="Rata Tengah">⏺️</button>
+        <button id="alignRightBtn" title="Rata Kanan">➡️</button>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

@@ -486,3 +486,61 @@ body {
     pointer-events: none; /* Agar tidak menghalangi klik kursor */
     opacity: 0.8; /* Sedikit transparan agar menyatu dengan background */
 }
+
+/* ================= TEMA COWO (V 7.0) ================= */
+/* Saat class 'theme-boy' aktif di body, seluruh warna akan ditimpa! */
+body.theme-boy {
+    background-color: #e3f2fd;
+    animation: lavaLampColorBoy 12s ease-in-out infinite alternate;
+    background-image: radial-gradient(
+        circle 500px at var(--x, 50%) var(--y, 50%), 
+        rgba(41, 121, 255, 0.25), /* Cahaya biru maskulin */
+        transparent 70% 
+    );
+}
+
+/* Modifikasi Warna Komponen untuk Tema Cowo */
+body.theme-boy .btn-new { background: linear-gradient(to right, #82b1ff, #bbdefb); color: #0d47a1; }
+body.theme-boy .btn-continue { background: linear-gradient(to right, #90caf9, #e3f2fd); color: #0d47a1; }
+body.theme-boy h1.title { color: #1e88e5; }
+body.theme-boy .prompt-box { border-color: #82b1ff; }
+body.theme-boy .prompt-box h3, body.theme-boy #exitTitle { color: #1e88e5 !important; }
+body.theme-boy .diary-paper { border-left: 4px double #82b1ff; }
+body.theme-boy .diary-paper::before { background: rgba(130, 177, 255, 0.6); }
+body.theme-boy .btn-home-back { background: #42a5f5; }
+body.theme-boy .btn-home-back:hover { background: #1e88e5; }
+body.theme-boy .btn-exit { background: linear-gradient(135deg, #82b1ff 0%, #bbdefb 100%); color: #0d47a1; border-color: #fff; box-shadow: 0 5px 15px rgba(130, 177, 255, 0.6);}
+
+@keyframes lavaLampColorBoy {
+    0% { background-color: #e3f2fd; }   
+    33% { background-color: #bbdefb; }  
+    66% { background-color: #e8eaf6; }  
+    100% { background-color: #c5cae9; } 
+}
+
+/* ================= TOOLTIP FOTO (V 7.0) ================= */
+#photo-tooltip {
+    position: fixed; /* Mengambang di atas segalanya */
+    background: rgba(255, 255, 255, 0.95);
+    padding: 6px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    display: flex;
+    gap: 8px;
+    z-index: 2000;
+    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: auto;
+}
+
+.hidden-tooltip {
+    opacity: 0;
+    transform: scale(0.6);
+    pointer-events: none;
+}
+
+#photo-tooltip button {
+    background: transparent; border: none; font-size: 1.3rem; 
+    cursor: pointer; padding: 5px; border-radius: 50%;
+    transition: transform 0.2s, background 0.2s;
+}
+#photo-tooltip button:hover { background: #f0f0f0; transform: scale(1.1); }

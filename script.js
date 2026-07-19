@@ -232,7 +232,7 @@ photoInput.addEventListener('change', function(e) {
                 ctx.drawImage(img, 0, 0, width, height);
 
                 const compressedBase64 = canvas.toDataURL('image/jpeg', 0.65);
-                const imgHtml = `<img src="${compressedBase64}" class="diary-photo" draggable="true" style="float: left;">`;
+                const imgHtml = `<img src="${compressedBase64}" class="diary-photo" style="display: inline-block; float: left; margin: 5px 15px 5px 0;">`;
                 
                 mainPaper.focus();
                 if (savedCursorRange) {
@@ -252,62 +252,56 @@ photoInput.addEventListener('change', function(e) {
     }
 });
 
-function attachPhotoEventsToPaper() {
-    const photos = mainPaper.querySelectorAll('.diary-photo:not(.ghost-preview)');
-    photos.forEach(photo => {
-        if (photo.dataset.isDraggable) return;
-        photo.dataset.isDraggable = "true";
+// ================= LOGIKA TOOLTIP ALIGNMENT FOTO (V 7.0) =================
+const photoTooltip = document.getElementById('photo-tooltip');
+let currentSelectedPhoto = null;
 
-        photo.ondblclick = (e) => {
-            e.stopPropagation();
-            photo.style.float = (photo.style.float === 'right') ? 'left' : 'right';
-            saveCurrentContent();
-        };
-
-        photo.addEventListener('dragstart', (e) => {
-            dragTarget = photo;
-            setTimeout(() => dragTarget.style.opacity = '0.3', 0);
-            ghostPreview = photo.cloneNode(true);
-            ghostPreview.classList.add('ghost-preview');
-            e.dataTransfer.setData('text/plain', '');
-            e.dataTransfer.effectAllowed = 'move';
-        });
-
-        photo.addEventListener('dragend', (e) => {
-            if (dragTarget) dragTarget.style.opacity = '1'; 
-            if (ghostPreview && ghostPreview.parentNode) ghostPreview.parentNode.removeChild(ghostPreview);
-            dragTarget = null; ghostPreview = null;
-            saveCurrentContent();
-        });
-    });
-}
-
-mainPaper.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    if (dragTarget && ghostPreview) {
-        let range = null;
-        if (document.caretRangeFromPoint) range = document.caretRangeFromPoint(e.clientX, e.clientY);
-        else if (document.caretPositionFromPoint) { 
-            let position = document.caretPositionFromPoint(e.clientX, e.clientY);
-            if (position) {
-                range = document.createRange();
-                range.setStart(position.offsetNode, position.offset);
-            }
-        }
-        if (range) range.insertNode(ghostPreview);
+// Memunculkan tooltip saat kursor menyentuh foto
+document.addEventListener('mouseover', (e) => {
+    if (e.target.classList.contains('diary-photo')) {
+        currentSelectedPhoto = e.target;
+        const rect = currentSelectedPhoto.getBoundingClientRect();
+        
+        // Memosisikan Tooltip di samping kanan atas foto
+        photoTooltip.style.top = rect.top + 'px';
+        photoTooltip.style.left = (rect.right + 15) + 'px';
+        photoTooltip.classList.remove('hidden-tooltip');
+    } 
+    // Menyembunyikan tooltip jika kursor menjauh dari foto DAN tooltip
+    else if (!e.target.closest('#photo-tooltip') && !e.target.classList.contains('diary-photo')) {
+        photoTooltip.classList.add('hidden-tooltip');
     }
 });
 
-mainPaper.addEventListener('drop', (e) => {
-    e.preventDefault();
-    if (dragTarget && ghostPreview && ghostPreview.parentNode) {
-        ghostPreview.parentNode.replaceChild(dragTarget, ghostPreview);
-        dragTarget.style.opacity = '1';
+// Aksi Tombol Rata Kiri
+document.getElementById('alignLeftBtn').addEventListener('click', () => {
+    if (currentSelectedPhoto) {
+        currentSelectedPhoto.style.display = 'inline-block';
+        currentSelectedPhoto.style.float = 'left';
+        currentSelectedPhoto.style.margin = '5px 15px 5px 0';
         saveCurrentContent();
     }
 });
-document.addEventListener('dragover', (e) => e.preventDefault());
-document.addEventListener('drop', (e) => e.preventDefault());
+
+// Aksi Tombol Rata Tengah
+document.getElementById('alignCenterBtn').addEventListener('click', () => {
+    if (currentSelectedPhoto) {
+        currentSelectedPhoto.style.display = 'block';
+        currentSelectedPhoto.style.float = 'none';
+        currentSelectedPhoto.style.margin = '15px auto';
+        saveCurrentContent();
+    }
+});
+
+// Aksi Tombol Rata Kanan
+document.getElementById('alignRightBtn').addEventListener('click', () => {
+    if (currentSelectedPhoto) {
+        currentSelectedPhoto.style.display = 'inline-block';
+        currentSelectedPhoto.style.float = 'right';
+        currentSelectedPhoto.style.margin = '5px 0 5px 15px';
+        saveCurrentContent();
+    }
+});
 
 // ================= LOGIKA MUSIK (WEB AUDIO API - ANTI LAG) =================
 const bgMusic = document.getElementById('bg-music');
@@ -444,6 +438,36 @@ function animateLavaCursor() {
 // 3. Nyalakan mesin fisika
 animateLavaCursor();
 
+// ================= SISTEM TEMA DINAMIS (COWO/CEWE) =================
+const themeBoyBtn = document.getElementById('themeBoyBtn');
+const themeGirlBtn = document.getElementById('themeGirlBtn');
+const exitTitle = document.getElementById('exitTitle');
+const exitDesc = document.getElementById('exitDesc');
+
+function applyTheme(theme) {
+    if (theme === 'boy') {
+        document.body.classList.add('theme-boy');
+        if (createNewDiaryBtn) createNewDiaryBtn.innerHTML = "🔥 Buat Diary Baru";
+        if (exitTitle) exitTitle.innerText = "Mau cabut sekarang? 🤨";
+        if (exitDesc) exitDesc.innerText = "Iki yakin mau nutup diary-nya?";
+        localStorage.setItem('diaryTheme', 'boy'); // Simpan ke ingatan browser
+    } else {
+        document.body.classList.remove('theme-boy');
+        if (createNewDiaryBtn) createNewDiaryBtn.innerHTML = "🌸 Buat Diary Baru";
+        if (exitTitle) exitTitle.innerText = "Mau pergi sekarang? 🥺";
+        if (exitDesc) exitDesc.innerText = "Eca yakin mau nutup diary-nya?";
+        localStorage.setItem('diaryTheme', 'girl'); // Simpan ke ingatan browser
+    }
+}
+
+// Muat tema terakhir saat web dibuka (Default: Girl)
+let savedTheme = localStorage.getItem('diaryTheme') || 'girl';
+applyTheme(savedTheme);
+
+// Deteksi Klik Tombol Tema
+if (themeBoyBtn) themeBoyBtn.addEventListener('click', () => applyTheme('boy'));
+if (themeGirlBtn) themeGirlBtn.addEventListener('click', () => applyTheme('girl'));
+
 // ================= DETEKSI PLATFORM (WEB VS WINDOWS EXE) =================
 const downloadExeLink = document.getElementById('downloadExeLink');
 
@@ -480,3 +504,20 @@ if (confirmExitBtn) {
         }, 800);
     });
 }
+
+// FUNGSI SAKLAR TOMBOL EXIT (Dipanggil saat pindah layar)
+function toggleExitButton(show) {
+    if (isElectron && exitAppBtn) {
+        exitAppBtn.style.display = show ? 'inline-block' : 'none';
+    }
+}
+
+// CARI FUNGSI-FUNGSI INI DI ATAS SCRIPT.JS-MU DAN TAMBAHKAN PEMANGGILAN SAKLARNYA:
+// Di dalam openEditor():
+//   toggleExitButton(false);
+// Di dalam continueDiaryBtn.addEventListener('click', ...):
+//   toggleExitButton(false);
+// Di dalam cancelSelectBtn.addEventListener('click', ...):
+//   toggleExitButton(true);
+// Di dalam saveAndExitBtn.addEventListener('click', ...):
+//   toggleExitButton(true);
