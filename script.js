@@ -125,6 +125,23 @@ cancelSelectBtn.addEventListener('click', () => {
     if (isElectron && exitAppBtn) exitAppBtn.style.display = 'inline-block'; // Munculkan Exit
 });
 
+// --- LOGIKA LANJUTKAN DIARI ---
+continueDiaryBtn.addEventListener('click', () => {
+    homeScreen.classList.add('hidden');
+    selectScreen.classList.remove('hidden');
+    renderDiaryList();
+    if (exitAppBtn) exitAppBtn.style.display = 'none';
+    if (typeof toggleExitButton === 'function') toggleExitButton(false);
+});
+
+cancelSelectBtn.addEventListener('click', () => {
+    selectScreen.classList.add('hidden');
+    homeScreen.classList.remove('hidden');
+    updateHomeButtons();
+    if (typeof isElectron !== 'undefined' && isElectron && exitAppBtn) exitAppBtn.style.display = 'inline-block';
+    if (typeof toggleExitButton === 'function') toggleExitButton(true);
+});
+
 // --- LOGIKA EDITOR RUANG KERJA ---
 function openEditor() {
     homeScreen.classList.add('hidden');
@@ -133,6 +150,7 @@ function openEditor() {
     // Sembunyikan Exit & Tombol Tema saat menulis
     if (exitAppBtn) exitAppBtn.style.display = 'none';
     if (themeSwitcher) themeSwitcher.style.display = 'none';
+    if (typeof toggleExitButton === 'function') toggleExitButton(false);
     
     diaryTitleDisplay.textContent = "📖 " + storageData[activeDiaryIndex].title;
     mainPaper.innerHTML = storageData[activeDiaryIndex].content || '<div><br></div>';
@@ -151,8 +169,9 @@ saveAndExitBtn.addEventListener('click', () => {
     updateHomeButtons();
     
     // Munculkan kembali Exit & Tombol Tema saat kembali ke Home
-    if (isElectron && exitAppBtn) exitAppBtn.style.display = 'inline-block';
+    if (typeof isElectron !== 'undefined' && isElectron && exitAppBtn) exitAppBtn.style.display = 'inline-block';
     if (themeSwitcher) themeSwitcher.style.display = 'flex';
+    if (typeof toggleExitButton === 'function') toggleExitButton(true);
 });
 
 function renderDiaryList() {

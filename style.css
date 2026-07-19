@@ -190,6 +190,16 @@ h1.title {
 }
 .btn-tool:hover { background: var(--pink-primary); color: white; }
 
+/* Warna Default (Tema Cewe) untuk Tombol Hapus */
+.btn-delete-diary {
+    background-color: #ff4766 !important;
+    color: white !important;
+}
+
+.btn-delete-diary:hover {
+    background-color: #e63950 !important;
+}
+
 /* Area Kerja & Kertas yang Benar-benar Bisa Melar */
 #workspace {
     flex-grow: 1; overflow-y: auto; padding: 40px 20px 120px 20px; display: block; text-align: center; cursor: text;
@@ -487,6 +497,16 @@ body {
     z-index: 9999; /* Memastikan selalu berada di atas */
     pointer-events: none; /* Agar tidak menghalangi klik kursor */
     opacity: 0.8; /* Sedikit transparan agar menyatu dengan background */
+}
+
+/* Warna Default (Tema Cewe) untuk Tombol Hapus */
+.btn-delete-diary {
+    background-color: #ff4766 !important;
+    color: white !important;
+}
+
+.btn-delete-diary:hover {
+    background-color: #e63950 !important;
 }
 
 /* ================= TEMA COWO (V 7.0 PERFECTED) ================= */
