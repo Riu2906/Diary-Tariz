@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diary Tariz ❤️</title>
+<link rel="icon" href="data:,">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <!-- LABEL VERSI APLIKASI -->
     <div id="app-version">v 6.0</div>
+
+<!-- TOMBOL KELUAR DIPINDAHKAN KESINI AGAR TIDAK NGE-GLITCH -->
+    <button class="btn-exit" id="exitAppBtn" style="display: none;">❌ Keluar</button>
+
+    <script src="script.js"></script>
+</body>
 
     <!-- ================= LAYAR PEMBUKA (SPLASH SCREEN) ================= -->
     <div id="splash-screen">
@@ -39,8 +46,6 @@
 <button class="menu-btn btn-changelog" id="changelogBtn" style="margin-top: 10px;">📜 Changelog</button>
             <!-- LINK DOWNLOAD VERSI EXE -->
             <a href="https://github.com/Riu2906/Diary-Tariz/releases/download/Download/Diary_Tariz_Setup.exe" id="downloadExeLink" class="download-link">dapatkan versi windows app</a>
-<!-- TOMBOL KELUAR (KHUSUS VERSI APP - DI KANAN BAWAH) -->
-            <button class="btn-exit" id="exitAppBtn" style="display: none;">❌ Keluar</button>
 
         </div>
 
@@ -95,6 +100,15 @@
                 
                 <!-- Area yang bisa di-scroll -->
                 <div class="scrollable-changelog" style="max-height: 250px; overflow-y: auto; color: #5d4037; font-size: 0.9rem; padding-right: 10px; line-height: 1.5;">
+
+<p style="color: #ff4766; font-weight: bold; margin-bottom: 3px;">V 6.0 (The Fluid Update)</p>
+                    <ul style="margin-top: 0; padding-left: 15px; margin-bottom: 12px;">
+                        <li>Latar belakang interaktif "Lava Lamp" yang memancarkan cahaya halus mengikuti pergerakan kursor.</li>
+                        <li>Layar editor diari kini transparan, sehingga kertas diari menyatu elegan dengan animasi latar belakang.</li>
+                        <li>Perombakan visual Splash Screen: Teks lebih rapi (justify), kontras warna yang nyaman dibaca, dan font yang lebih bersih.</li>
+                        <li>Penambahan indikator versi aplikasi (v 6.0) di sudut kiri bawah layar.</li>
+                        <li>Perbaikan bug tata letak (glitch) pada tombol Keluar di versi Windows App.</li>
+                    </ul>
 
 <p style="color: #ff4766; font-weight: bold; margin-bottom: 3px;">V5.0 (The Immersive Update)</p>
                     <ul style="margin-top: 0; padding-left: 15px; margin-bottom: 12px;">
