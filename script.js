@@ -451,12 +451,6 @@ const themeBoyBtn = document.getElementById('themeBoyBtn');
 const themeGirlBtn = document.getElementById('themeGirlBtn');
 const exitTitle = document.getElementById('exitTitle');
 const exitDesc = document.getElementById('exitDesc');
-
-// ================= SISTEM TEMA DINAMIS (COWO/CEWE) =================
-const themeBoyBtn = document.getElementById('themeBoyBtn');
-const themeGirlBtn = document.getElementById('themeGirlBtn');
-const exitTitle = document.getElementById('exitTitle');
-const exitDesc = document.getElementById('exitDesc');
 const delTitle = document.querySelector('.delete-box h3');
 
 function applyTheme(theme) {
